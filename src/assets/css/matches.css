@@ -1,0 +1,18 @@
+.matches-body .green-light-cont.dashboard-wrap-inner {
+    max-width: 100%;
+}
+
+.matches-body .green-light-tab .nav-item .nav-link.active {
+    background: #165432;
+    color: #fff;
+}
+
+.matches-body .green-light-tab .nav-pills {
+    box-shadow: 6px 0px 18px rgba(0, 0, 0, 0.06);
+}
+
+.matches-body .green-light-tab .nav-item .nav-link {
+    color: #000;
+    border-radius: 0;
+    padding: 22px;
+}

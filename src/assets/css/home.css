@@ -1,0 +1,251 @@
+/* Hero */
+.heroSec .header-logo {
+    text-align: left;
+    margin: -30px 0 0 30px;
+}
+
+.heroSec {
+    background-image: url(../images/hero-bg.png);
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    color: #fff;
+}
+
+.heroSec .heroSec-wrap {
+    max-width: 70%;
+    margin: 0 auto;
+    padding: 150px 0;
+}
+
+.heroSec .heroSec-wrap h1 {
+    font-size: 60px;
+    font-weight: 500;
+    line-height: 90px;
+    text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.8);
+    margin-bottom: 17px;
+}
+
+.heroSec .heroSec-wrap p {
+    font-weight: 500;
+    line-height: 28px;
+    letter-spacing: 0.185em;
+    margin-bottom: 20px;
+}
+
+/* Match Algorithm */
+.match-algoSec .match-AlgoCont h2 {
+    font-size: 60px;
+    line-height: 90px;
+    font-family: 'poppins-sb';
+    margin-bottom: 35px;
+}
+
+.match-algoSec .match-AlgoCont p {
+    font-size: 24px;
+    line-height: 42px;
+    color: #212121;
+    font-family: poppins-l;
+}
+
+.match-algoSec .match-algoImg {
+    text-align: right;
+    position: relative;
+}
+
+.match-algoSec .match-algoImg .userInfoCard {
+    position: absolute;
+    bottom: 84px;
+    right: 15px;
+    background: #fff;
+    width: 270px;
+    text-align: left;
+    padding: 20px;
+    box-shadow: 0px 8px 34px rgba(0, 0, 0, 0.44);
+    border-radius: 20px;
+}
+
+.match-algoSec .match-algoImg picture {
+    width: 100%;
+    display: block;
+}
+
+.match-algoSec .match-algoImg .userInfoCard h6 {
+    font-size: 16px;
+    font-family: 'poppins-sb';
+    line-height: 24px;
+    margin-bottom: 8px;
+}
+
+.match-algoSec .match-algoImg .userInfoCard p {
+    font-family: 'poppins-l';
+    font-size: 12px;
+}
+
+.match-algoSec .match-algoImg .userStatus {
+    position: absolute;
+    bottom: -30px;
+    left: 16%;
+}
+
+
+.match-algoSec .match-algoImg .userStatus .icons {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    text-align: center;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.match-algoSec .match-algoImg .userStatus .icons svg {
+    font-size: 30px;
+    fill: #fff;
+}
+
+/* Amazing Features */
+.featureSec {
+    background: #F5F5F5;
+}
+
+.featureSec .full-width {
+    display: block;
+    margin: 0 -12px;
+}
+
+.featureSec .full-width img {
+    width: 100%;
+}
+
+picture.full-width {
+    display: block;
+    margin: 0 -12px;
+}
+
+picture.full-width img {
+    width: 100%;
+}
+
+.featureSec .featureWrap {
+    padding: 50px;
+}
+
+.featureSec .featureWrap .featuresList {
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.featureSec .featureWrap .featuresList .featureItem {
+    flex: 0 0 50%;
+    padding: 35px 15px;
+}
+
+.featureSec .featureWrap .featuresList .featureItem img {
+    margin-bottom: 25px;
+}
+
+.featureSec .featureWrap .featuresList .featureItem h3 {
+    font-size: 24px;
+    line-height: 36px;
+    color: #212121;
+}
+
+.featureSec .featureWrap .featuresList .featureItem p {
+    font-family: 'poppins-l';
+    font-size: 16px;
+    line-height: 28px;
+}
+
+/* About Section */
+.aboutSec .about-cont p {
+    margin-bottom: 15px;
+    font-family: 'poppins-l';
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.about_img img {
+    padding: 0 40px;
+}
+
+/* Love Stories */
+.love-stories .cmn-heading2 {
+    margin-bottom: 50px;
+}
+
+.love-stories .love-story-box {
+    background-image: url(../images/hearts-bg\ 1.png);
+    background-position: center;
+    position: relative;
+}
+
+.love-stories .love-story-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 70%;
+    height: 100%;
+    transform: translateX(-50%);
+    z-index: -1;
+    background: #165432;
+    opacity: 0.15;
+    border-radius: 34px;
+}
+
+.love-stories .love-story-box .love-story {
+    background: #fff;
+    box-shadow: 0px 8px 34px #00000021;
+    border-radius: 19px;
+    padding: 40px;
+}
+
+.love-stories .love-story-box .love-story h3 {
+    font-family: 'poppins-m';
+    font-size: 24px;
+    line-height: 36px;
+    margin: 0;
+}
+
+.love-stories .love-story-box .love-story span {
+    font-family: 'poppins-l';
+    font-size: 14px;
+    line-height: 21px;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.love-stories .love-story-box .love-story p {
+    font-family: 'poppins-l';
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.love-stories .love-story-box .love-story img {
+    margin-bottom: 12px;
+}
+
+/* Counter */
+.counter .counterWrap {
+    text-align: center;
+}
+
+.counter .counterWrap h2 {
+    font-family: 'poppins-b';
+    font-size: 46px;
+    line-height: 69px;
+    color: #165432;
+}
+
+.counter .counterWrap p {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.counter .counterWrap img {
+    margin-bottom: 10px;
+}

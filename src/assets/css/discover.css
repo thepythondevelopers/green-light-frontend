@@ -1,0 +1,120 @@
+.discover-body .search-box {
+    box-shadow: 6px 0px 18px rgba(0, 0, 0, 0.06);
+    padding: 40px;
+    max-width: 70%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.discover-body .search-box input {
+    border: 1px solid #CDCDCD;
+    border-radius: 5px;
+    height: 64px;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 20px 200px 20px 50px;
+}
+
+.discover-body .search-box button.cmn_btn {
+    position: absolute;
+    top: 50%;
+    right: 47px;
+    transform: translateY(-50%);
+    margin: 0;
+}
+
+.discover-body .search-box svg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+    left: 52px;
+    fill: #D7D7D7;
+}
+
+.discover-body .optionsForm {
+    color: #212121;
+}
+
+.discover-body .optionsForm h6 {
+    font-family: 'poppins-m';
+    font-size: 22px;
+    line-height: 33px;
+    margin-bottom: 15px;
+}
+
+.discover-body .optionsForm h6 span {
+    font-family: 'poppins-m';
+    font-size: 16px;
+    line-height: 24px;
+    margin-left: 8px;
+}
+
+.discover-body .optionsForm .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.discover-body .optionsForm .form-group .form-label {
+    font-family: 'poppins-m';
+    font-size: 18px;
+    line-height: 27px;
+    padding-right: 20px;
+    flex: 0 0 auto;
+}
+
+.discover-body .optionsForm .form-group .form-select {
+    border: 1px solid #CDCDCD;
+    border-radius: 5px;
+    height: 54px;
+    box-shadow: none;
+}
+
+.discover-body .optionsForm .form-group .form-select:focus {
+    border: 1px solid #165432;
+}
+
+.discover-body .optionsForm .form-option-range {
+    display: flex;
+}
+
+.discover-body .optionsForm .form-option-range .form-group {
+    flex: 0 0 45%;
+}
+
+.discover-body .optionsForm .form-option-range .form-group:not(:last-child) {
+    padding-right: 10px;
+}
+
+.discover-body .optionsForm .form-option-range .form-group:not(:first-child) {
+    padding-left: 10px;
+}
+
+.discover-body .options button {
+    display: table;
+    margin: 0 auto;
+}
+
+.discover-body .moreOptions {
+    background-color: #FAFAFA;
+    padding: 20px;
+    position: relative;
+    display: none;
+    margin-top: 8px;
+}
+
+.discover-body .moreOptions.active {
+    display: block;
+}
+
+.discover-body .moreOptions::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    transform: translateX(-50%) rotate(45deg);
+    background: #fafafa;
+}

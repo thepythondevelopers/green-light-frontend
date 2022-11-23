@@ -1,0 +1,38 @@
+.dashboard-wrap-inner {
+    max-width: 70%;
+    margin: 0 auto;
+}
+
+.dashboard-wrap-inner .alert button.btn {
+    font-family: 'poppins-m';
+}
+
+.dashboard-wrap-inner .slick-prev {
+    z-index: 9;
+    left: 0;
+    background: #000;
+}
+
+.dashboard-wrap-inner .slick-next {
+    right: 0;
+}
+
+.dashboard-wrap-inner .slick-arrow {
+    background: #165432;
+    z-index: 9;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.dashboard-wrap-inner .slick-arrow svg {
+    font-size: 38px;
+    color: #fff;
+}
+
+.dashboard-wrap-inner .slick-arrow::before {
+    display: none;
+}

@@ -1,0 +1,71 @@
+.membership-box {
+    background: linear-gradient(180deg, #165432 0%, rgba(58, 138, 94, 0.776042) 17.71%, rgba(135, 223, 175, 0.496077) 47.4%, rgba(44, 112, 75, 0.42) 82.81%, rgba(22, 84, 50, 0.53) 100%);
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.membership-box .membership-box-heading {
+    text-align: center;
+    padding: 30px;
+    color: #fff;
+    font-family: 'poppins-m';
+    font-size: 26px;
+    line-height: 42px;
+}
+
+.membership-box .membership-body {
+    background: #fff;
+    border-radius: 5px;
+    padding: 16px;
+}
+
+.membership-box .membership-body p {
+    font-family: 'poppins-sb';
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    margin: 10px 0 30px;
+}
+
+.membership-box .membership-body ul.membership-features li {
+    font-family: 'poppins-l';
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 15px;
+}
+
+.membership-box .membership-body ul.membership-features li svg {
+    fill: #165432;
+    font-size: 15px;
+    margin-right: 8px;
+}
+
+.membership-box .membership-body ul.membership-price-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.membership-box .membership-body ul.membership-price-list li {
+    border: 2px solid #165432;
+    flex: 0 0 48%;
+    margin: 1%;
+    padding: 4px 13px;
+    border-radius: 8px;
+    font-family: 'poppins-sb';
+    font-size: 25px;
+    line-height: 41px;
+    color: #165432;
+    text-align: center;
+}
+
+.membership-box .membership-body ul.membership-price-list li:last-child {
+    border: 2px solid #D1D1D1;
+    color: #FF5F5F;
+}
+
+.membership-box .membership-body ul.membership-price-list li span {
+    font-family: 'poppins-l';
+    font-size: 12px;
+    line-height: 18px;
+}

@@ -1,0 +1,232 @@
+.auth-cont {
+    padding: 50px;
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.auth-cont h3 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 36px;
+    margin-bottom: 30px;
+}
+
+.auth-cont p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+}
+
+.auth-cont .cmn_btn img {
+    float: left;
+}
+
+.auth-cont .form-control,
+.auth-cont .form-select {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    height: 64px;
+    border-radius: 0;
+    padding: 15px 30px;
+    box-shadow: none;
+}
+
+.auth-cont .form-control:focus,
+.auth-cont .form-select:focus {
+    border: 1px solid #165432;
+}
+
+.auth-cont .form-label {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #696F79;
+}
+
+.auth-cont .simpleLink {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19px;
+    color: #8692A6;
+    text-decoration: none;
+}
+
+.auth-cont .auth-bottom-text {
+    font-weight: 400;
+    line-height: 19px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.auth-cont .auth-bottom-text a {
+    color: #165432;
+    text-decoration: none;
+}
+
+.auth-cont .cmn_btn {
+    width: 100%;
+    padding: 23px 30px;
+}
+
+.auth-imageSide {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.auth-imageSide .auth-bigImg img,
+.auth-imageSide .auth-portrait img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.auth-imageSide .auth-bigImg {
+    flex: 0 0 70%;
+}
+
+.auth-imageSide .auth-portrait {
+    flex: 0 0 30%;
+}
+
+.auth-login-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.auth-login-box a.cmn_link {
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.error {
+    font-size: 13px;
+    color: #c00;
+}
+
+.auth-cont .auth-login-box .form-check {
+    margin: 0;
+    padding: 0;
+}
+
+.auth-cont .auth-login-box .form-check .form-check-input {
+    padding: 0;
+    height: initial;
+    width: initial;
+    margin-bottom: 0;
+    display: none;
+    cursor: pointer;
+}
+
+.auth-cont .auth-login-box .form-check .form-check-label {
+    position: relative;
+    cursor: pointer;
+}
+
+.auth-cont .auth-login-box .form-check .form-check-label:before {
+    content: '';
+    -webkit-appearance: none;
+    background-color: transparent;
+    background: #F7FAFC;
+    border: 1px solid #E8E8E8;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+    padding: 7px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.auth-cont .auth-login-box .form-check .form-check-input:checked+.form-check-label:before {
+    border: 1px solid #165432;
+}
+
+.auth-cont .auth-login-box .form-check .form-check-input:checked+.form-check-label:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 3px;
+    width: 10px;
+    height: 10px;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    background: #165432;
+    border-radius: 50%;
+}
+
+.auth-cont .backbtn {
+    position: absolute;
+    top: 20px;
+    left: 0;
+}
+
+.auth-cont h6 {
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 20px;
+}
+
+.auth-body .formStep {
+    display: none;
+}
+
+.auth-body .formStep.active {
+    display: block;
+}
+
+.auth-body .formStep .form-unused-text {
+    font-size: 16px;
+    line-height: 25px;
+    display: flex;
+}
+
+.auth-body .formStep .form-unused-text svg {
+    font-size: 25px;
+    margin: 0px 8px 0 0;
+}
+
+.auth-body .full-w-field .field-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.auth-body .formStep div#dropdown-date {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.auth-body .formStep select {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    height: 64px;
+    border-radius: 0;
+    padding: 15px 30px;
+    box-shadow: none;
+    border: 1px solid #ced4da;
+    width: 100%;
+}
+
+/* .auth-body .formStep >div {
+    margin-bottom: 15px;
+}
+
+.auth-body .formStep >div:last-child {
+    flex: 0 0 100%;
+}
+
+.auth-body .formStep >div:nth-child(1) {
+    padding-right: 10px;
+    flex: 0 0 70%;
+}
+
+.auth-body .formStep >div:nth-child(2) {
+    padding-left: 10px;
+    flex: 0 0 30%;
+} */

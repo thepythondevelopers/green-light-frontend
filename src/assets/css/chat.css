@@ -1,0 +1,164 @@
+/* Contact List */
+.chat-body .inviteListBox {
+    padding: 30px 0;
+}
+
+.chat-body .recentInfo,
+.chat-body .inviteInfo {
+    padding: 20px 17px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.chat-body .inviteInfo {
+    align-items: center;
+    border-bottom: 1px solid #EBEFF2;
+}
+
+.chat-body .inviteInfo:last-child {
+    border: none
+}
+
+.chat-body .recentInfo .contact-list-img img,
+.chat-body .inviteInfo .contact-list-img img {
+    width: 39px;
+    height: 39px;
+    border: 2px solid #EDEDED;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.chat-body .recentInfo .contact-list-info h6 {
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0;
+}
+
+.chat-body .recentInfo .contact-list-info p {
+    font-family: 'poppins-l';
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.chat-body .recentInfo .contact-list-info span {
+    font-size: 10px;
+    line-height: 15px;
+    color: #A0A0A0;
+    display: block;
+}
+
+.recentListBox {
+    border-bottom: 1px solid #EBEFF2;
+}
+
+.chat-body .recentInfo .contact-list-img,
+.chat-body .inviteInfo .contact-list-img {
+    position: relative;
+}
+
+.chat-body .recentInfo .contact-list-img .status,
+.chat-body .inviteInfo .contact-list-img .status {
+    position: absolute;
+    bottom: 0px;
+    right: 15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #B0C2CC;
+}
+
+.chat-body .recentInfo .contact-list-img .status.offline,
+.chat-body .inviteInfo .contact-list-img .status.offline {
+    background-color: #165432;
+}
+
+/* Chat */
+.chat-box-card {
+    display: flex;
+    align-items: flex-end;
+    width: 60%;
+    margin-bottom: 40px;
+}
+
+.chat-box-card.chatSender {
+    margin-left: auto;
+}
+
+.chat-box-card img {
+    border: 2px solid #EDEDED;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    margin-bottom: 28px;
+}
+
+.chat-box {
+    padding: 30px;
+}
+
+.chat-box-card.chatReceiver .chat-message {
+    padding-left: 20px;
+}
+
+.chat-box-card.chatSender .chat-message {
+    padding-right: 20px;
+}
+
+.chat-box-card.chatReceiver .chat-message p {
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.13);
+    padding: 12px 10px;
+}
+
+.chat-box-card.chatSender .chat-message p {
+    padding: 12px 10px;
+    background-color: #F2F2F2;
+}
+
+.chat-box-card .chat-message .chat-time {
+    font-size: 12px;
+    line-height: 18px;
+    color: #C6C6C6;
+    text-align: right;
+    display: block;
+    margin-top: 8px;
+}
+
+.report {
+    margin-top: 15px;
+    font-family: 'poppins-l';
+    font-size: 16px;
+    line-height: 24px;
+    color: #9B9B9B;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.report svg {
+    margin-right: 6px;
+}
+
+.chatBottomCard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-top: 1px solid #EBEFF2;
+}
+
+.chatBottomCard input[type="text"] {
+    flex-grow: 1;
+    height: 52px;
+    padding: 10px;
+    margin: 0 10px;
+    border: none;
+    font-size: 14px;
+    outline: none;
+}
+
+.chatBottomCard .cmn_btn {
+    margin: 0;
+}
+
+.chatBottomCard input[type="text"]::placeholder {
+    color: #C6C6C6
+}
