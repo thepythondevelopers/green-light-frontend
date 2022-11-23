@@ -23,6 +23,8 @@ jobs:
       run:
         working-directory: /var/www/html/green-light-frontend
     steps:
+      - name: Remove old node_modules
+        run: rm -rf node-modules
       - name: Install dependencies
         run: npm install -f
       - name: Creating Build
