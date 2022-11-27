@@ -1,13 +1,77 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../../Shared/Header";
 import Footer from "../../../Shared/Footer";
 import Sidebar from "../../../Shared/Sidebar";
 import ProfileBanner from "../../../Components/ProfileBanner";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Alert } from "react-bootstrap";
 import { FaUserCircle } from 'react-icons/fa';
 import "../../../assets/css/info-card.css";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserAPI } from "../../../Redux/Action/Action";
+import axios from "axios";
+const api = " http://44.211.151.102/api";
 
-const PersonalPreferences = () => {
+const ProfessionalInfo = () => {
+    const user = useSelector((state) => state.userReducer.userInfo);
+    const dispatch = useDispatch();
+    const [message, setMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [professionalInfo, setProfessionalInfo] = useState({
+        have_car: "",
+        work_position: "",
+        work_employer: "",
+        education_degree: "",
+        education_school: "",
+        about_me: ""
+    });
+
+    const handleProfessionalInfo = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setProfessionalInfo({ ...professionalInfo, [name]: value });
+        console.log("professionalInfo name", name);
+        console.log("professionalInfo value", value);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        professionalInfoAPI(professionalInfo)
+    }
+
+    useEffect(() => {
+        dispatch(getUserAPI());
+    }, []);
+    useEffect(() => {
+        setProfessionalInfo(user);
+    }, [user]);
+
+    // Personal Preferences API
+    const professionalInfoAPI = (data) => {
+        console.log("data", data);
+        fetch(`${api}/professional-information`, {
+            method: 'POST',
+            headers: {
+                "x-access-token": JSON.parse(localStorage.getItem("user-info")).token,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.text())
+            .then(result => {
+                setProfessionalInfo(result);
+                dispatch(getUserAPI());
+                setMessage("Professional Informations are successfully Updated.");
+                setTimeout(() => {
+                    setMessage("");
+                }, 3000);
+            })
+            .catch(error => {
+                console.log('error', error);
+                setErrorMessage(error);
+
+            });
+    }
     return (
         <>
             <Header />
@@ -29,7 +93,7 @@ const PersonalPreferences = () => {
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/car.svg" alt="car" />
-                                                <Form.Group controlId="have-car">
+                                                <Form.Group controlId="have_car" value={professionalInfo.have_car} onChange={(e) => { handleProfessionalInfo(e) }}>
                                                     <Form.Label>Have Car:</Form.Label>
                                                     {['radio'].map((type) => (
                                                         <div key={`reverse-${type}`} className="mb-3">
@@ -37,17 +101,21 @@ const PersonalPreferences = () => {
                                                                 inline
                                                                 reverse
                                                                 type={type}
-                                                                name="have-car"
-                                                                id={`reverse-${type}-have-car-1`}
+                                                                name="have_car"
+                                                                id={`reverse-${type}-have_car-1`}
                                                                 label="Yes"
+                                                                value="Yes"
+                                                                Checked={`${professionalInfo.have_car == "Yes" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
                                                                 reverse
-                                                                name="have-car"
+                                                                name="have_car"
                                                                 type={type}
-                                                                id={`reverse-${type}-have-car-2`}
+                                                                id={`reverse-${type}-have_car-2`}
                                                                 label="No"
+                                                                value="No"
+                                                                Checked={`${professionalInfo.have_car == "No" ? true : false}`}
                                                             />
                                                         </div>
                                                     ))}
@@ -67,18 +135,18 @@ const PersonalPreferences = () => {
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/baseline-work.svg" alt="baseline-work" className="disable" />
-                                                <Form.Group controlId="position">
+                                                <Form.Group controlId="work_position">
                                                     <Form.Label className="multitext-label">Position:</Form.Label>
-                                                    <Form.Control type="text" placeholder="Enter your job profile..." />
+                                                    <Form.Control type="text" placeholder="Enter your job profile..." name="work_position" value={professionalInfo.work_position} onChange={(e) => { handleProfessionalInfo(e) }} />
                                                 </Form.Group>
                                             </Col>
                                         </Row>
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/baseline-work.svg" alt="baseline-work" className="disable" />
-                                                <Form.Group controlId="employer">
+                                                <Form.Group controlId="work_employer">
                                                     <Form.Label className="multitext-label">Employer:</Form.Label>
-                                                    <Form.Control type="text" placeholder="Enter your Employer's Name..." />
+                                                    <Form.Control type="text" placeholder="Enter your Employer's Name..." name="work_employer" value={professionalInfo.work_employer} onChange={(e) => { handleProfessionalInfo(e) }} />
                                                 </Form.Group>
                                             </Col>
                                         </Row>
@@ -95,18 +163,18 @@ const PersonalPreferences = () => {
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/education.svg" alt="education" className="disable" />
-                                                <Form.Group controlId="degree">
+                                                <Form.Group controlId="education_degree">
                                                     <Form.Label className="multitext-label">Degree:</Form.Label>
-                                                    <Form.Control type="degree" placeholder="Your degree..." />
+                                                    <Form.Control type="degree" placeholder="Your degree..." name="education_degree" value={professionalInfo.education_degree} onChange={(e) => { handleProfessionalInfo(e) }} />
                                                 </Form.Group>
                                             </Col>
                                         </Row>
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/education.svg" alt="education" className="disable" />
-                                                <Form.Group controlId="school">
+                                                <Form.Group controlId="education_school">
                                                     <Form.Label className="multitext-label">School:</Form.Label>
-                                                    <Form.Control type="text" placeholder="Your school..." />
+                                                    <Form.Control type="text" placeholder="Your school..." name="education_school" value={professionalInfo.education_school} onChange={(e) => { handleProfessionalInfo(e) }} />
                                                 </Form.Group>
                                             </Col>
                                         </Row>
@@ -115,17 +183,19 @@ const PersonalPreferences = () => {
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/user-outlined.svg" alt="user-outlined" />
-                                                <Form.Group controlId="about-me">
+                                                <Form.Group controlId="about_me">
                                                     <Form.Label>About Me:</Form.Label>
-                                                    <Form.Control as="textarea" aria-label="With textarea" placeholder="Write about yourself..." row="20" col="20" />
+                                                    <Form.Control as="textarea" aria-label="With textarea" placeholder="Write about yourself..." name="about_me" row="20" col="20" value={professionalInfo.about_me} onChange={(e) => { handleProfessionalInfo(e) }} />
                                                 </Form.Group>
                                             </Col>
                                         </Row>
                                     </div>
                                     <div className="form-button-group d-flex justify-content-between">
                                         <button type="button" className="cmn_btn form-btn border">Cancel</button>
-                                        <button type="button" className="cmn_btn form-btn cmn_green">Save Changes</button>
+                                        <button type="button" className="cmn_btn form-btn cmn_green" onClick={(e) => handleSubmit(e)}>Save Changes</button>
                                     </div>
+                                    {message && <Alert variant="success"> <p className="text-center">{message}</p></Alert>}
+                                    {errorMessage && <Alert variant="danger"> <p className="text-center">{errorMessage}</p></Alert>}
                                 </div>
                             </div>
                         </Col>
@@ -137,4 +207,4 @@ const PersonalPreferences = () => {
     )
 }
 
-export default PersonalPreferences;
+export default ProfessionalInfo;

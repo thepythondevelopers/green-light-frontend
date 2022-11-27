@@ -116,7 +116,7 @@ const Login = () => {
                                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                                         <Form.Check type="checkbox" label="Remember me" />
                                     </Form.Group>
-                                    <Link to={"forget-passsword"} className="cmn_link">Forgot password?</Link>
+                                    <Link to={"/forget-password"} className="cmn_link">Forgot password?</Link>
                                 </div>
                                 <Button className="cmn_btn cmn_green" variant="primary" type="submit" onClick={(e) => handleForSubmit(e)}>
                                     Sign In

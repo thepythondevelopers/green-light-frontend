@@ -1,18 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../Shared/Header";
 import Footer from "../../../Shared/Footer";
 import Sidebar from "../../../Shared/Sidebar";
 import ProfileBanner from "../../../Components/ProfileBanner";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Alert } from "react-bootstrap";
 import { FaUserCircle } from 'react-icons/fa';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { FiUpload } from 'react-icons/fi';
 import "../../../assets/css/info-card.css";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserAPI } from "../../../Redux/Action/Action";
+import axios from "axios";
+const api = " http://44.211.151.102/api";
 
 const UploadPicture = () => {
+    const user = useSelector((state) => state.userReducer.userInfo);
+    const dispatch = useDispatch();
+    const [message, setMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [image, setImage] = useState();
+    console.log("image", image);
+    const [imageResult, setImageResult] = useState();
     const handleUploadChange = (e) => {
-        console.log(e.target.files[0]);
+        setImage(e.target.files[0]);
+        console.log("image", image);
+        console.log("e.target.files[0]", e.target.files[0]);
+        professionalInfoAPI(e.target.files[0]);
     }
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     professionalInfoAPI(image);
+    // }
+
+    useEffect(() => {
+        dispatch(getUserAPI());
+        setImageResult(user);
+    }, []);
+    useEffect(() => {
+        setImageResult(user);
+    }, [user]);
+
+    // Personal Preferences API
+    const professionalInfoAPI = (data) => {
+        console.log("data", data);
+        var formdata = new FormData();
+        formdata.append("image", data);
+        fetch(`${api}/profile-image`, {
+            method: 'POST',
+            headers: {
+                "x-access-token": JSON.parse(localStorage.getItem("user-info")).token
+            },
+            body: formdata,
+        })
+            .then(response => response.text())
+            .then(result => {
+                setImageResult(user);
+                dispatch(getUserAPI());
+                setMessage(result);
+                setTimeout(() => {
+                    setMessage("");
+                }, 3000);
+            })
+            .catch(error => {
+                console.log('error', error);
+                setErrorMessage(error);
+
+            });
+    }
+
     return (
         <>
             <Header />
@@ -40,13 +96,17 @@ const UploadPicture = () => {
                                     <Row className="mb-4">
                                         <Col md={4}>
                                             <div className="uploadImg">
-                                                <img src="/assets/images/dummy-profile.png" alt="photos" />
+                                                {
+                                                    imageResult?.images ?
+                                                        (<img src={`https://pamsarbucket.s3.amazonaws.com/${imageResult?.images[0]}`} alt="photos" />) :
+                                                        (<img src="/assets/images/dummy-profile.png" alt="photos" />)
+                                                }
                                             </div>
                                         </Col>
                                         <Col md={8}>
                                             <div className="file-uplaod">
                                                 <Form.Group controlId="formFile">
-                                                    <Form.Control type="file" onChange={(e) => handleUploadChange(e)} />
+                                                    <Form.Control type="file" accept="image/*" onChange={(e) => handleUploadChange(e)} />
                                                     <div className="file-dummy">
                                                         <div className="indiebloc">
                                                             <FiUpload />
@@ -58,17 +118,26 @@ const UploadPicture = () => {
                                                     </div>
                                                 </Form.Group>
                                             </div>
+                                            {message && <Alert variant="success"> <p className="text-center">{message}</p></Alert>}
+                                            {errorMessage && <Alert variant="danger"> <p className="text-center">{errorMessage}</p></Alert>}
                                         </Col>
                                     </Row>
                                     <h6 >Add more photos</h6>
                                     <div className="add-photos">
                                         <ul className="adddphotos">
-                                            <li><img src="/assets/images/dummy-profile.png" alt="photos" /></li>
-                                            <li><img src="/assets/images/dummy-profile.png" alt="photos" /></li>
-                                            <li><img src="/assets/images/dummy-profile.png" alt="photos" /></li>
-                                            <li><img src="/assets/images/dummy-profile.png" alt="photos" /></li>
-                                            <li><img src="/assets/images/dummy-profile.png" alt="photos" /></li>
-                                            <li><img src="/assets/images/dummy-profile.png" alt="photos" /></li>
+                                            {
+                                                imageResult?.images ? imageResult?.images.map((curelem, index) => (
+                                                    <li key={index}><img src={`https://pamsarbucket.s3.amazonaws.com/${curelem}`} alt="photos" /></li>
+                                                )) :
+                                                    (<>
+                                                        <li> <img src="/assets/images/dummy-profile.png" alt="photos" /></li>
+                                                        <li> <img src="/assets/images/dummy-profile.png" alt="photos" /></li>
+                                                        <li> <img src="/assets/images/dummy-profile.png" alt="photos" /></li>
+                                                        <li> <img src="/assets/images/dummy-profile.png" alt="photos" /></li>
+                                                        <li> <img src="/assets/images/dummy-profile.png" alt="photos" /></li>
+                                                        <li> <img src="/assets/images/dummy-profile.png" alt="photos" /></li>
+                                                    </>)
+                                            }
                                             <li><AiOutlinePlusCircle /></li>
                                         </ul>
                                     </div>

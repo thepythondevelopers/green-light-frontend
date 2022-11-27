@@ -30,7 +30,7 @@ const Router = () => {
                     <Route path="/Login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/forgetpassword" element={<ForgetPassword />} />
+                    <Route path="/forget-password" element={<ForgetPassword />} />
                     <Route path="/create-password" element={<CreatePassword />} />
                     {/* Private Path for users */}
                     <Route path="/user" element={<PrivateRoute />}>

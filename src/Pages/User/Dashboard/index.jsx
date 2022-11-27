@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../../Shared/Header";
 import Footer from "../../../Shared/Footer";
 import ProfileBanner from "../../../Components/ProfileBanner";
@@ -41,6 +41,10 @@ const Dashboard = () => {
         prevArrow: <SamplePrevArrow />
 
     };
+
+    const [matchingAlgo, setMatchingAlgo] = useState();
+
+    // Get MatchingAlgo
     return (
         <>
             <Header />

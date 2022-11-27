@@ -3,7 +3,7 @@ import Header from "../../../Shared/Header";
 import Footer from "../../../Shared/Footer";
 import Sidebar from "../../../Shared/Sidebar";
 import ProfileBanner from "../../../Components/ProfileBanner";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Alert } from "react-bootstrap";
 import { FaUserCircle } from 'react-icons/fa';
 import "../../../assets/css/info-card.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -64,7 +64,7 @@ const PersonalPreferences = () => {
             .then(result => {
                 dispatch(getUserAPI());
                 setpersonalPreference(result);
-                setMessage("Personal Informations are successfully Updated.");
+                setMessage("Personal Preferences are successfully Updated.");
                 setTimeout(() => {
                     setMessage("");
                 }, 3000);
@@ -150,6 +150,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-smoking-1`}
                                                                 label="Yes"
                                                                 value="Yes"
+                                                                Checked={`${personalPreference.smoking == "Yes" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -159,6 +160,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-smoking-2`}
                                                                 label="Sometimes"
                                                                 value="Sometimes"
+                                                                Checked={`${personalPreference.smoking == "Sometimes" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -168,6 +170,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-smoking-3`}
                                                                 label="No"
                                                                 value="No"
+                                                                Checked={`${personalPreference.smoking == "No" ? true : false}`}
                                                             />
                                                         </div>
                                                     ))}
@@ -191,6 +194,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-marijuana-1`}
                                                                 label="Yes"
                                                                 value="Yes"
+                                                                Checked={`${personalPreference.marijuana == "Yes" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -200,6 +204,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-marijuana-2`}
                                                                 label="Sometimes"
                                                                 value="Sometimes"
+                                                                Checked={`${personalPreference.marijuana == "Sometimes" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -209,6 +214,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-marijuana-3`}
                                                                 label="No"
                                                                 value="No"
+                                                                Checked={`${personalPreference.marijuana == "No" ? true : false}`}
                                                             />
                                                         </div>
                                                     ))}
@@ -228,6 +234,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-drugs-1`}
                                                                 label="Yes"
                                                                 value="Yes"
+                                                                Checked={`${personalPreference.drugs == "Yes" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -237,6 +244,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-drugs-2`}
                                                                 label="Sometimes"
                                                                 value="Sometimes"
+                                                                Checked={`${personalPreference.drugs == "Sometimes" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -246,6 +254,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-drugs-3`}
                                                                 label="No"
                                                                 value="No"
+                                                                Checked={`${personalPreference.drugs == "No" ? true : false}`}
                                                             />
                                                         </div>
                                                     ))}
@@ -269,6 +278,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-have_kids-1`}
                                                                 label="Yes"
                                                                 value="Yes"
+                                                                Checked={`${personalPreference.have_kids == "Yes" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -278,6 +288,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-have_kids-2`}
                                                                 label="No"
                                                                 value="No"
+                                                                Checked={`${personalPreference.have_kids == "No" ? true : false}`}
                                                             />
                                                         </div>
                                                     ))}
@@ -297,6 +308,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-want_kids-1`}
                                                                 label="Yes"
                                                                 value="Yes"
+                                                                Checked={`${personalPreference.want_kids == "Yes" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -306,6 +318,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-want_kids-2`}
                                                                 label="No"
                                                                 value="No"
+                                                                Checked={`${personalPreference.want_kids == "No" ? true : false}`}
                                                             />
                                                         </div>
                                                     ))}
@@ -357,6 +370,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-1`}
                                                                 label="Relationship"
                                                                 value="Relationship"
+                                                                Checked={`${personalPreference.looking_for == "Relationship" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -366,6 +380,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-2`}
                                                                 label="Dating"
                                                                 value="Dating"
+                                                                Checked={`${personalPreference.looking_for == "Dating" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -375,6 +390,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-3`}
                                                                 label="Friendship"
                                                                 value="Friendship"
+                                                                Checked={`${personalPreference.looking_for == "Friendship" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -384,6 +400,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-4`}
                                                                 label="Networking"
                                                                 value="Networking"
+                                                                Checked={`${personalPreference.looking_for == "Networking" ? true : false}`}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -393,6 +410,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-5`}
                                                                 label="Other"
                                                                 value="Other"
+                                                                Checked={`${personalPreference.looking_for == "Other" ? true : false}`}
                                                             />
                                                         </div>
                                                     ))}
@@ -432,6 +450,8 @@ const PersonalPreferences = () => {
                                         <button type="button" className="cmn_btn form-btn border">Cancel</button>
                                         <button type="button" className="cmn_btn form-btn cmn_green" onClick={(e) => handleSubmit(e)}>Save Changes</button>
                                     </div>
+                                    {message && <Alert variant="success"> <p className="text-center">{message}</p></Alert>}
+                                    {errorMessage && <Alert variant="danger"> <p className="text-center">{errorMessage}</p></Alert>}
                                 </div>
                             </div>
                         </Col>
