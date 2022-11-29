@@ -30,11 +30,19 @@ const MatchAlgo = () => {
                                     <img src="assets/images/match-algo.png" className="img-fluid" alt="login" />
                                 </picture>
                                 <div className="userStatus">
-                                    <img src="assets/images/status.png" alt="Status" />
                                     <div className="icons">
-                                        <AiOutlinePlus/>
-                                        <BiQuestionMark/>
-                                        <TiLocationArrow/>
+                                        <span className="red-light light">
+                                            <img src="/assets/images/status-red.png" alt="Status" />
+                                            <AiOutlinePlus />
+                                        </span>
+                                        <span className="yellow-light light">
+                                            <img src="/assets/images/status-yellow.png" alt="Status" />
+                                            <BiQuestionMark />
+                                        </span>
+                                        <span className="green-light light">
+                                            <img src="/assets/images/status-green.png" alt="Status" />
+                                            <TiLocationArrow />
+                                        </span>
                                     </div>
                                 </div>
                             </div>

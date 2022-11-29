@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../Shared/Header";
 import Footer from "../../../Shared/Footer";
 import ProfileBanner from "../../../Components/ProfileBanner";
@@ -8,6 +8,7 @@ import { Container, Alert, Button } from "react-bootstrap";
 import "../../../assets/css/dashboard.css";
 import Slider from "react-slick";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
+const api = " http://44.211.151.102/api";
 
 function SampleNextArrow(props) {
     const { className, onClick } = props;
@@ -39,12 +40,33 @@ const Dashboard = () => {
         slidesToScroll: 1,
         nextArrow: <SampleNextArrow />,
         prevArrow: <SamplePrevArrow />
-
     };
 
-    const [matchingAlgo, setMatchingAlgo] = useState();
+    const [matchingAlgo, setMatchingAlgo] = useState("");
+    useEffect(() => {
+        getMatchAlgo();
+    }, []);
 
     // Get MatchingAlgo
+    const getMatchAlgo = (data) => {
+        fetch(`${api}/matching-algo`, {
+            method: 'GET',
+            headers: {
+                "x-access-token": JSON.parse(localStorage.getItem("user-info")).token,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            // body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log("result", result);
+                setMatchingAlgo(result);
+            })
+            .catch(error => {
+                console.log('error', error);
+            });
+    }
     return (
         <>
             <Header />
@@ -53,9 +75,13 @@ const Dashboard = () => {
                 <Container>
                     <div className="dashboard-wrap-inner">
                         <Slider {...settings}>
-                            <MatchCard />
-                            <MatchCard />
-                            <MatchCard />
+                            {
+                                matchingAlgo.length > 0 && matchingAlgo.map((curElem, index) => {
+                                    return (
+                                        <MatchCard data={curElem} />
+                                    )
+                                })
+                            }
                         </Slider>
                         <Alert variant="success" className="d-flex justify-content-between align-items-center">
                             <p>
