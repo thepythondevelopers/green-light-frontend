@@ -55,9 +55,12 @@ const MatchCard = (props) => {
             <div className="matchCard">
                 <div className="img-gallery">
                     <Slider {...settings}>
-                        <img src="/assets/images/match-card.png" alt="card gallery" />
-                        <img src="/assets/images/match-card.png" alt="card gallery" />
-                        <img src="/assets/images/match-card.png" alt="card gallery" />
+                        {
+                            props?.data?.images > 0 ? props?.data?.images.map((curelem, index) => {
+                                <img src={`https://pamsarbucket.s3.amazonaws.com/${curelem}`} alt="card gallery" />
+                            }) : (<img src="/assets/images/match-card.png" alt="card gallery" />)
+                        }
+
                     </Slider>
                     {
                         props?.chatVisible === "yes" && <Link to={"/user/chat"} className="chatIcon"><BsChatDots />Chat</Link>
@@ -68,105 +71,127 @@ const MatchCard = (props) => {
                     <p className="locationName"><CiLocationOn /> {props?.data?.city} {props?.data?.country}</p>
                     <div className="matchCard-box">
                         <Row>
-                            <Col md={6}>
-                                <div className="matchCard-boxCard">
-                                    <GiAges />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Age</h6>
-                                        <p>{props?.data?.dob}</p>
+                            {props?.data?.dob &&
+                                <Col md={6}>
+                                    <div className="matchCard-boxCard">
+                                        <GiAges />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Age</h6>
+                                            <p>{props?.data?.dob}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={6}>
-                                <div className="matchCard-boxCard">
-                                    <MdHeight />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Height</h6>
-                                        <p>test</p>
+                                </Col>
+                            }
+                            {props?.data?.height &&
+                                <Col md={6}>
+                                    <div className="matchCard-boxCard">
+                                        <MdHeight />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Height</h6>
+                                            <p>{props?.data?.height}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={12}>
-                                <div className="matchCard-boxCard">
-                                    <BiBriefcaseAlt />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Work</h6>
-                                        <p>test</p>
+                                </Col>
+                            }
+                            {(props?.data?.work_position || props?.data?.work_employer) &&
+                                < Col md={12}>
+                                    <div className="matchCard-boxCard">
+                                        <BiBriefcaseAlt />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Work</h6>
+                                            <p>{props?.data?.work_position} at  {props?.data?.work_employer}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={12}>
-                                <div className="matchCard-boxCard">
-                                    <SlGraduation />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Education</h6>
-                                        <p>test</p>
+                                </Col>
+                            }
+                            {props?.data?.education_degree &&
+                                <Col md={12}>
+                                    <div className="matchCard-boxCard">
+                                        <SlGraduation />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Education</h6>
+                                            <p>{props?.data?.education_degree}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={6}>
-                                <div className="matchCard-boxCard">
-                                    <BsGenderAmbiguous />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Interested</h6>
-                                        <p>{props?.data?.interested_in[0]}</p>
+                                </Col>
+                            }
+                            {props?.data?.interested_in &&
+                                <Col md={6}>
+                                    <div className="matchCard-boxCard">
+                                        <BsGenderAmbiguous />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Interested</h6>
+                                            <p>{props?.data?.interested_in[0]}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={6}>
-                                <div className="matchCard-boxCard">
-                                    <TbZodiacGemini />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Astrology Sign</h6>
-                                        <p>test</p>
+                                </Col>
+                            }
+                            {props?.data?.astrology_sign &&
+                                <Col md={6}>
+                                    <div className="matchCard-boxCard">
+                                        <TbZodiacGemini />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Astrology Sign</h6>
+                                            <p>{props?.data?.astrology_sign}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={6}>
-                                <div className="matchCard-boxCard">
-                                    <FaGlassMartiniAlt />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Drugs</h6>
-                                        <p>test</p>
+                                </Col>
+                            }
+                            {(props?.data?.alcohol && props?.data?.alcohol !== "No") &&
+                                <Col md={6}>
+                                    <div className="matchCard-boxCard">
+                                        <FaGlassMartiniAlt />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Drugs</h6>
+                                            <p>Alcohol</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={6}>
-                                <div className="matchCard-boxCard">
-                                    <FaSmoking />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Drugs</h6>
-                                        <p>test</p>
+                                </Col>
+                            }
+                            {(props?.data?.smoking && props?.data?.smoking !== "No") &&
+                                <Col md={6}>
+                                    <div className="matchCard-boxCard">
+                                        <FaSmoking />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Drugs</h6>
+                                            <p>Smoking</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={12}>
-                                <div className="matchCard-boxCard">
-                                    <GiBigDiamondRing />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Marital Status</h6>
-                                        <p>test</p>
+                                </Col>
+                            }
+                            {props?.data?.marital_status &&
+                                <Col md={12}>
+                                    <div className="matchCard-boxCard">
+                                        <GiBigDiamondRing />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Marital Status</h6>
+                                            <p>{props?.data?.marital_status}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={6}>
-                                <div className="matchCard-boxCard">
-                                    <AiOutlineIdcard />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Religion</h6>
-                                        <p>test</p>
+                                </Col>
+                            }
+                            {props?.data?.religion &&
+                                <Col md={6}>
+                                    <div className="matchCard-boxCard">
+                                        <AiOutlineIdcard />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Religion</h6>
+                                            <p>{props?.data?.religion}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                            <Col md={6}>
-                                <div className="matchCard-boxCard">
-                                    <BsGenderAmbiguous />
-                                    <div className="matchCard-boxItem">
-                                        <h6>Gender</h6>
-                                        <p>test</p>
+                                </Col>
+                            }
+                            {props?.data?.gender &&
+                                <Col md={6}>
+                                    <div className="matchCard-boxCard">
+                                        <BsGenderAmbiguous />
+                                        <div className="matchCard-boxItem">
+                                            <h6>Gender</h6>
+                                            <p>{props?.data?.gender}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
+                                </Col>
+                            }
                         </Row>
                     </div>
                     <div className="userStatus">

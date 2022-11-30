@@ -140,6 +140,12 @@ button.cmn_link {
     border-right: 2px solid #E4E4E4;
 }
 
+.no-data h2 {
+    font-family: poppins-sb;
+    font-size: 28px;
+    text-transform: capitalize;
+}
+
 
 
 /* Responsive */
