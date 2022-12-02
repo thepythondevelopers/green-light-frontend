@@ -6,6 +6,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { MdArrowForwardIos } from 'react-icons/md';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import "../../../assets/css/membership.css";
+import { Link } from "react-router-dom";
 
 const Membership = () => {
     return (
@@ -34,7 +35,7 @@ const Membership = () => {
                                             <li>$9.99 <span>/month</span></li>
                                             <li>$1.99 <span>/day</span></li>
                                         </ul>
-                                        <button className="cmn_btn cmn_green w-100 rounded-pill">Upgrade Now <MdArrowForwardIos /></button>
+                                        <Link className="cmn_btn cmn_green w-100 rounded-pill" to={"/user/paymenet"}>Upgrade Now <MdArrowForwardIos /></Link>
                                     </div>
                                 </div>
                             </Col>

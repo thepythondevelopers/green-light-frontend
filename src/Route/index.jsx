@@ -18,6 +18,7 @@ import Membership from "../Pages/User/Membership";
 import Matches from "../Pages/User/Matches";
 import Discover from "../Pages/User/Discover";
 import Chat from "../Pages/User/Chat";
+import Paymenet from "../Pages/User/Paymenet";
 import ContactList from "../Pages/User/ContactList";
 import NotFound from "../Pages/NotFound";
 
@@ -46,6 +47,7 @@ const Router = () => {
                         <Route path="chat" element={<Chat />} />
                         <Route path="contact-list" element={<ContactList />} />
                         <Route path="matches" element={<Matches />} />
+                        <Route path="paymenet" element={<Paymenet />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

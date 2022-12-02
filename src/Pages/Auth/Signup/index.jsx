@@ -12,6 +12,8 @@ const api = " http://44.211.151.102/api";
 
 const Signup = () => {
     const navigate = useNavigate();
+    const currentYear = new Date().getFullYear();
+    console.log("currentYear", currentYear - 18);
     // Form Variables
     const [formVar, setFormVar] = useState({
         dob: "",
@@ -293,8 +295,8 @@ const Signup = () => {
                                     <Form.Group className="mb-3" controlId="dob3">
                                         <YearPicker
                                             defaultValue={'year'}
-                                            start={2010}
-                                            end={2020}
+                                            start={1900}
+                                            end={currentYear - 18}
                                             reverse
                                             required={true}
                                             value={formVar.year}
