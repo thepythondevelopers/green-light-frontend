@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert, Button } from "react-bootstrap";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 // import icons
@@ -17,7 +17,7 @@ import { TiLocationArrow } from "react-icons/ti";
 const api = " http://44.211.151.102/api";
 
 const MatchCard = (props) => {
-    console.log("props", props?.data)
+    const [statusMessage, setStatusMessage] = useState("")
     const settings = {
         arrow: false,
         dots: true,
@@ -33,6 +33,15 @@ const MatchCard = (props) => {
     });
     // Get Save Light
     const saveLightApi = (data) => {
+        let dataMessage;
+        if (data.sent_light === "Green") {
+            dataMessage = `You have indicated interest. See this person in the Green Lights section.`
+        }
+        else if (data.sent_light === "Yellow") {
+            dataMessage = `You have pending. See this person in the Yellow Lights section.`
+        } else if (data.sent_light === "Red") {
+            dataMessage = `You have ingore this person.`
+        }
         fetch(`${api}/save-light`, {
             method: 'POST',
             headers: {
@@ -45,6 +54,10 @@ const MatchCard = (props) => {
             .then(response => response.json())
             .then(result => {
                 console.log("result", result);
+                setStatusMessage(dataMessage);
+                setTimeout(() => {
+                    setStatusMessage("");
+                }, 2000);
             })
             .catch(error => {
                 console.log('error', error);
@@ -196,7 +209,7 @@ const MatchCard = (props) => {
                     </div>
                     <div className="userStatus">
                         <div className="icons">
-                            <span className="red-light light" onClick={(e) => { console.log("red test", props?.data?._id); saveLightApi({ "sent_to": props?.data?._id, "sent_light": "Red" }) }}>
+                            <span className="red-light light" onClick={(e) => { console.log("red test", props?.data?._id); saveLightApi({ "sent_to": props?.data?._id, "sent_light": "Red" }); }}>
                                 <img src="/assets/images/status-red.png" alt="Status" />
                                 <AiOutlinePlus />
                             </span>
@@ -212,6 +225,13 @@ const MatchCard = (props) => {
                     </div>
                 </div>
             </div>
+            {
+                statusMessage && (
+                    <Alert variant="success" className="d-flex justify-content-between align-items-center">
+                        <p>{statusMessage}</p>
+                    </Alert>
+                )
+            }
         </>
     )
 }

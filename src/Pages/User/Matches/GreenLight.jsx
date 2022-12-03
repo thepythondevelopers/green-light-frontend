@@ -88,6 +88,7 @@ const GreenLight = () => {
         })
             .then(response => response.json())
             .then(result => {
+                console.log("result", result);
                 setShownInterestTab(result);
             })
             .catch(error => {

@@ -118,3 +118,18 @@
     transform: translateX(-50%) rotate(45deg);
     background: #fafafa;
 }
+
+.search-keyword .searchResult,
+.searchbyOption .searchResult {
+    max-width: 70%;
+    margin: 0 auto;
+    padding: 50px 0 20px;
+}
+
+.search-keyword .searchResult>h3,
+.searchbyOption .searchResult>h3 {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: 'poppins-m';
+}

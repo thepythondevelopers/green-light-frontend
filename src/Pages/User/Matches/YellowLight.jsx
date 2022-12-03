@@ -76,7 +76,7 @@ const YellowLight = () => {
                                     {
                                         yellowLight.map((curElem, index) => {
                                             return (
-                                                <MatchCard data={curElem} />
+                                                <MatchCard data={curElem.sent_to1} />
                                             )
                                         })
                                     }

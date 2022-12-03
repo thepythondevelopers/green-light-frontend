@@ -4,11 +4,11 @@ import Footer from "../../../Shared/Footer";
 import ProfileBanner from "../../../Components/ProfileBanner";
 import MatchCard from "../../../Components/MatchCard";
 import AdvertisementLS from "../../../Components/AdvertisementLS";
-import { Container, Alert, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import "../../../assets/css/dashboard.css";
 import Slider from "react-slick";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
-const api = " http://44.211.151.102/api";
+const api = "http://44.211.151.102/api";
 
 function SampleNextArrow(props) {
     const { className, onClick } = props;
@@ -43,20 +43,30 @@ const Dashboard = () => {
     };
 
     const [matchingAlgo, setMatchingAlgo] = useState("");
+    const [matchAlgoData, setMatchAlgoData] = useState({
+        search: 1,
+        interested_in: "Male",
+        age_from: 10,
+        age_to: 100000,
+        eyes: "",
+        hair_color: "",
+        religion: ""
+    })
     useEffect(() => {
-        getMatchAlgo();
+        getMatchAlgo(matchAlgoData);
     }, []);
 
     // Get MatchingAlgo
     const getMatchAlgo = (data) => {
+        console.log("data", data)
         fetch(`${api}/matching-algo`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 "x-access-token": JSON.parse(localStorage.getItem("user-info")).token,
                 Accept: "application/json",
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
-            // body: JSON.stringify(data),
+            body: JSON.stringify(data),
         })
             .then(response => response.json())
             .then(result => {
@@ -83,12 +93,6 @@ const Dashboard = () => {
                                 })
                             }
                         </Slider>
-                        <Alert variant="success" className="d-flex justify-content-between align-items-center">
-                            <p>
-                                You have indicated interest.<br />See this person in the Green Lights section.
-                            </p>
-                            <Button className="cmn_link">Undo</Button>
-                        </Alert>
                         <AdvertisementLS />
                     </div>
                 </Container>
