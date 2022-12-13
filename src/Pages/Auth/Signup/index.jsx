@@ -13,7 +13,6 @@ const api = " http://44.211.151.102/api";
 const Signup = () => {
     const navigate = useNavigate();
     const currentYear = new Date().getFullYear();
-    console.log("currentYear", currentYear - 18);
     // Form Variables
     const [formVar, setFormVar] = useState({
         dob: "",
@@ -32,6 +31,8 @@ const Signup = () => {
     });
     const [errors, setErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
+    const [emailError, setEmailError] = useState("");
+    console.log("emailError", emailError);
     const [step, setStep] = useState(0);
     const formTitles = ["Sign Up to your Account!", "Sign up by answering a few questions:", "Almost done..."];
 
@@ -109,17 +110,19 @@ const Signup = () => {
         let name = e.target.name;
         let value = e.target.value;
         setFormVar({ ...formVar, [name]: value });
-        console.log("formVar", formVar);
     }
 
     // Step1
     const handleSignupStep1 = (e) => {
         e.preventDefault();
         setErrors(validationStep1(formVar));
-        setIsSubmit(true);
+        SignUpApi(formVar);
+        if (emailError === "") {
+            setIsSubmit(true);
+        }
     }
     useEffect(() => {
-        if (Object.keys(errors).length === 0 && isSubmit) {
+        if (Object.keys(errors).length === 0 && isSubmit && emailError == "") {
             if (step !== 2) {
                 setStep((current) => current + 1);
                 setIsSubmit(false);
@@ -132,7 +135,7 @@ const Signup = () => {
     // step2
     const handleSignupStep2 = (e) => {
         e.preventDefault();
-        let date = [formVar.day, parseInt(formVar.month) + 1, formVar.year].join("-");
+        let date = [formVar.year, parseInt(formVar.month) + 1, formVar.day].join("-");
         setErrors(validationStep2(formVar));
         setFormVar({ ...formVar, "dob": date });
         setIsSubmit(true);
@@ -142,14 +145,12 @@ const Signup = () => {
     const finalStep = (e) => {
         e.preventDefault();
         setErrors(validationStep3(formVar));
-        console.log("formVar", formVar)
         setIsSubmit(true);
 
     }
 
     // Handle Signin  API
     const SignUpApi = (formResp) => {
-        console.log("API", formResp)
         axios.post(`${api}/sign-up`, {
             method: "POST",
             headers: {
@@ -169,12 +170,18 @@ const Signup = () => {
             .then(result => {
                 console.log("LoginApi result::", result);
                 // localStorage.setItem("user-info", JSON.stringify(result.data));
+                setEmailError("");
                 setTimeout(() => {
                     navigate("/login");
                 }, 2000);
             })
             .catch(error => {
                 console.log("LoginApi error::", error);
+                if (error.response.data.error[0].msg == "E-mail already in use") {
+                    setEmailError("E-mail already in use");
+                } else {
+                    setEmailError("");
+                }
             })
     }
     return (
@@ -237,6 +244,7 @@ const Signup = () => {
                                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                                         <Form.Check type="checkbox" label="I agree to terms & conditions" />
                                     </Form.Group>
+                                    {emailError && <Form.Text className="error">{emailError}</Form.Text>}
                                     <Button className="cmn_btn cmn_green" variant="primary" type="submit" onClick={(e) => handleSignupStep1(e)}>
                                         Sign Up and Continue
                                     </Button>
@@ -312,6 +320,7 @@ const Signup = () => {
                                     </Form.Group>
                                     <Form.Text className="text-muted form-unused-text"><AiOutlineEye /> Your age will be visible to others. This cannot be
                                         changed later.</Form.Text>
+                                    <Form.Text className="error form-unused-text"> Note* user less then 18 years can not registered </Form.Text>
                                     <Button className="cmn_btn cmn_green" variant="primary" type="submit" onClick={(e) => handleSignupStep2(e)}> Continue</Button>
                                 </div>
                                 {/* Step 3 */}
