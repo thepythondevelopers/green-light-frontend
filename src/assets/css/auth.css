@@ -230,3 +230,12 @@
     padding-left: 10px;
     flex: 0 0 30%;
 } */
+.auth-body .formStep div {
+    position: relative;
+}
+
+.auth-body .formStep span.iconVisible {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+}

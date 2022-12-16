@@ -17,21 +17,24 @@ const PersonalPreferences = () => {
     const [message, setMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [personalPreference, setpersonalPreference] = useState({
-        alcohol: "",
-        smoking: "",
-        marijuana: "",
-        drugs: "",
-        have_kids: "",
-        want_kids: "",
+        alcohol: "No",
+        smoking: "No",
+        marijuana: "No",
+        drugs: "No",
+        have_kids: "No",
+        want_kids: "No",
         astrology_sign: "",
         ethinicity: "",
         looking_for: ""
     });
 
+    console.log("personalPreference", personalPreference);
+
     const handleInputRadio = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setpersonalPreference({ ...personalPreference, [name]: value })
+        setpersonalPreference({ ...personalPreference, [name]: value });
+        console.log("result", personalPreference);
     }
 
     const handleSubmit = (e) => {
@@ -65,6 +68,7 @@ const PersonalPreferences = () => {
                 dispatch(getUserAPI());
                 setpersonalPreference(result);
                 setMessage("Personal Preferences are successfully Updated.");
+                console.log("result", result);
                 setTimeout(() => {
                     setMessage("");
                 }, 3000);
@@ -97,7 +101,7 @@ const PersonalPreferences = () => {
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/alcohol.svg" alt="alcohal" />
-                                                <Form.Group controlId="alcohol" value={personalPreference.alcohol} onChange={(e) => { handleInputRadio(e) }}>
+                                                <Form.Group controlId="alcohol" value={personalPreference.alcohol} onChange={(e) => { console.log(e.target.value); handleInputRadio(e) }}>
                                                     <Form.Label>Alcohol:</Form.Label>
                                                     {['radio'].map((type) => {
                                                         return (
@@ -334,7 +338,18 @@ const PersonalPreferences = () => {
                                                     <Form.Label>Astrology Sign:</Form.Label>
                                                     <Form.Select defaultValue="Choose..." name="astrology_sign" value={personalPreference.astrology_sign} onChange={(e) => { handleInputRadio(e) }}>
                                                         <option>Choose...</option>
+                                                        <option value="Aries">Aries</option>
+                                                        <option value="Taurus">Taurus</option>
                                                         <option value="Gemini">Gemini</option>
+                                                        <option value="Cancer">Cancer</option>
+                                                        <option value="Leo">Leo</option>
+                                                        <option value="Virgo">Virgo</option>
+                                                        <option value="Libra">Libra</option>
+                                                        <option value="Scorpio">Scorpio</option>
+                                                        <option value="Sagittarius">Sagittarius</option>
+                                                        <option value="Capricorn">Capricorn</option>
+                                                        <option value="Aquarius">Aquarius</option>
+                                                        <option value="Pisces">Pisces</option>
                                                     </Form.Select>
                                                 </Form.Group>
                                             </Col>
@@ -348,7 +363,11 @@ const PersonalPreferences = () => {
                                                     <Form.Label>Ethnicity:</Form.Label>
                                                     <Form.Select defaultValue="Choose..." name="ethinicity" value={personalPreference.ethinicity} onChange={(e) => { handleInputRadio(e) }}>
                                                         <option>Choose...</option>
-                                                        <option value="Native American">Native American</option>
+                                                        <option value="indigenous">Indigenous</option>
+                                                        <option value="pacific-islander">Pacific Islander</option>
+                                                        <option value="southeast-asian">Southeast Asian</option>
+                                                        <option value="Other">Other</option>
+                                                        <option value="indigenous">Indigenous</option>
                                                     </Form.Select>
                                                 </Form.Group>
                                             </Col>

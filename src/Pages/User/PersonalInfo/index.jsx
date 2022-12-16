@@ -176,7 +176,66 @@ const PersonalInfo = () => {
                                                     <Form.Label>Height:</Form.Label>
                                                     <Form.Select defaultValue="Choose..." name="height" value={personalInfo?.height} onChange={(e) => (handleProfileInfoChange(e))}>
                                                         <option>Choose...</option>
-                                                        <option value="5'6">5'6”</option>
+                                                        <option value="91.44">3'0"</option>
+                                                        <option value="94.488">3'1"</option>
+                                                        <option value="97.536">3'2"</option>
+                                                        <option value="100.584">3'3"</option>
+                                                        <option value="103.632">3'4"</option>
+                                                        <option value="106.68">3'5"</option>
+                                                        <option value="109.728">3'6"</option>
+                                                        <option value="112.776">3'7"</option>
+                                                        <option value="115.824">3'8"</option>
+                                                        <option value="118.872">3'9"</option>
+                                                        <option value="121.92">4'0"</option>
+                                                        <option value="124.968">4'1"</option>
+                                                        <option value="128.016">4'2"</option>
+                                                        <option value="131.064">4'3"</option>
+                                                        <option value="134.112">4'4"</option>
+                                                        <option value="137.16">4'5"</option>
+                                                        <option value="140.208">4'6"</option>
+                                                        <option value="143.256">4'7"</option>
+                                                        <option value="146.304">4'8"</option>
+                                                        <option value="149.352">4'9"</option>
+                                                        <option value="152.4">5'0"</option>
+                                                        <option value="155.448">5'1"</option>
+                                                        <option value="158.496">5'2"</option>
+                                                        <option value="161.544">5'3"</option>
+                                                        <option value="164.592">5'4"</option>
+                                                        <option value="167.64">5'5"</option>
+                                                        <option value="170.688">5'6"</option>
+                                                        <option value="173.736">5'7"</option>
+                                                        <option value="176.784">5'8"</option>
+                                                        <option value="179.832">5'9"</option>
+                                                        <option value="182.88">6'0"</option>
+                                                        <option value="185.928">6'1"</option>
+                                                        <option value="188.976">6'2"</option>
+                                                        <option value="192.024">6'3"</option>
+                                                        <option value="195.072">6'4"</option>
+                                                        <option value="198.12">6'5"</option>
+                                                        <option value="201.168">6'6"</option>
+                                                        <option value="204.216">6'7"</option>
+                                                        <option value="207.264">6'8"</option>
+                                                        <option value="210.312">6'9"</option>
+                                                        <option value="213.36">7'0"</option>
+                                                        <option value="216.408">7'1"</option>
+                                                        <option value="219.456">7'2"</option>
+                                                        <option value="222.504">7'3"</option>
+                                                        <option value="225.552">7'4"</option>
+                                                        <option value="228.6">7'5"</option>
+                                                        <option value="231.648">7'6"</option>
+                                                        <option value="234.696">7'7"</option>
+                                                        <option value="237.744">7'8"</option>
+                                                        <option value="240.792">7'9"</option>
+                                                        <option value="243.84">8'0"</option>
+                                                        <option value="246.888">8'1"</option>
+                                                        <option value="249.936">8'2"</option>
+                                                        <option value="252.984">8'3"</option>
+                                                        <option value="256.032">8'4"</option>
+                                                        <option value="259.08">8'5"</option>
+                                                        <option value="262.128">8'6"</option>
+                                                        <option value="265.176">8'7"</option>
+                                                        <option value="268.224">8'8"</option>
+                                                        <option value="271.272">8'9"</option>
                                                     </Form.Select>
                                                 </Form.Group>
                                             </Col>
@@ -186,10 +245,16 @@ const PersonalInfo = () => {
                                         <Row>
                                             <Col>
                                                 <Form.Group controlId="eyes">
-                                                    <Form.Label>Eyes:</Form.Label>
+                                                    <Form.Label>Eye Color:</Form.Label>
                                                     <Form.Select defaultValue="Choose..." name="eyes" value={personalInfo?.eyes} onChange={(e) => (handleProfileInfoChange(e))}>
                                                         <option>Choose...</option>
+                                                        <option value="amber">Amber</option>
+                                                        <option value="blue">Blue</option>
+                                                        <option value="brown">Brown</option>
+                                                        <option value="gray">Gray</option>
+                                                        <option value="green">Green</option>
                                                         <option value="hazel">Hazel</option>
+                                                        <option value="red">Red</option>
                                                     </Form.Select>
                                                 </Form.Group>
                                             </Col>
@@ -202,7 +267,12 @@ const PersonalInfo = () => {
                                                     <Form.Label>Hair color:</Form.Label>
                                                     <Form.Select defaultValue="Choose..." name="hair_color" value={personalInfo?.hair_color} onChange={(e) => (handleProfileInfoChange(e))}>
                                                         <option>Choose...</option>
-                                                        <option value="Blonde">Blonde</option>
+                                                        <option value="black">Black</option>
+                                                        <option value="brown">Brown </option>
+                                                        <option value="auburn ">Auburn</option>
+                                                        <option value="red ">Red </option>
+                                                        <option value="blond ">Blond </option>
+                                                        <option value="gray-and-white">Gray and white</option>
                                                     </Form.Select>
                                                 </Form.Group>
                                             </Col>

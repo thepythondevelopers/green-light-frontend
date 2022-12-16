@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import '../../../assets/css/auth.css';
 import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Button, Form } from 'react-bootstrap';
-import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
 import CountryForm from "../../../assets/data/Country";
 import { DayPicker, MonthPicker, YearPicker } from "react-dropdown-date";
@@ -22,8 +22,9 @@ const Signup = () => {
         display_name: "",
         email: "",
         password: "",
-        gender: "Male",
-        interested_in: "Female",
+        cpassword: "",
+        gender: "",
+        interested_in: "",
         country: "",
         state: "",
         city: "",
@@ -31,6 +32,8 @@ const Signup = () => {
     });
     const [errors, setErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [cPasswordVisible, setCPasswordVisible] = useState(false);
     const [emailError, setEmailError] = useState("");
     console.log("emailError", emailError);
     const [step, setStep] = useState(0);
@@ -65,6 +68,11 @@ const Signup = () => {
         }
         if (!values.password) {
             error.password = " Please fill password"
+        }
+        if (!values.cpassword) {
+            error.cpassword = " Please fill confirm password"
+        } else if (values.password !== values.cpassword) {
+            error.cpassword = "Password not matched"
         }
         return error;
     }
@@ -110,6 +118,7 @@ const Signup = () => {
         let name = e.target.name;
         let value = e.target.value;
         setFormVar({ ...formVar, [name]: value });
+        console.log("name", name, "value", value);
     }
 
     // Step1
@@ -238,8 +247,31 @@ const Signup = () => {
 
                                     <Form.Group className="mb-3" controlId="password">
                                         <Form.Label>Create password*</Form.Label>
-                                        <Form.Control type="password" name="password" placeholder="Enter password" value={formVar.password} onChange={(e) => handleInputChange(e)} />
+                                        <Form.Control type={passwordVisible ? "text" : "password"} name="password" placeholder="Enter password" value={formVar.password} onChange={(e) => handleInputChange(e)} />
+                                        <span className="iconVisible">
+                                            {
+                                                passwordVisible ? (
+                                                    <AiOutlineEyeInvisible onClick={(e) => { setPasswordVisible(false) }} />
+                                                ) : (
+                                                    <AiOutlineEye onClick={(e) => { setPasswordVisible(true) }} />
+                                                )
+                                            }
+                                        </span>
                                         {errors?.password && <Form.Text className="error">{errors?.password}</Form.Text>}
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="cpassword">
+                                        <Form.Label>Confirm password*</Form.Label>
+                                        <Form.Control type={cPasswordVisible ? "text" : "password"} name="cpassword" placeholder="Enter confirm password" value={formVar.cpassword} onChange={(e) => handleInputChange(e)} />
+                                        <span className="iconVisible">
+                                            {
+                                                cPasswordVisible ? (
+                                                    <AiOutlineEyeInvisible onClick={(e) => { setCPasswordVisible(false) }} />
+                                                ) : (
+                                                    <AiOutlineEye onClick={(e) => { setCPasswordVisible(true) }} />
+                                                )
+                                            }
+                                        </span>
+                                        {errors?.cpassword && <Form.Text className="error">{errors?.cpassword}</Form.Text>}
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                                         <Form.Check type="checkbox" label="I agree to terms & conditions" />
@@ -330,7 +362,7 @@ const Signup = () => {
                                         <Form.Control type="text" name="display_name" placeholder="Your name" value={formVar.display_name} onChange={(e) => handleInputChange(e)} />
                                         {errors?.display_name && <Form.Text className="error">{errors?.display_name}</Form.Text>}
                                     </Form.Group>
-                                    <Form.Group className="mb-3 full-w-field" controlId="gender">
+                                    <Form.Group className="mb-3 full-w-field" controlId="gender" value={formVar.gender} onChange={(e) => { handleInputChange(e) }}>
                                         <Form.Label>I am*</Form.Label>
                                         {['radio'].map((type) => (
                                             <div key={`reverse-${type}`} className="mb-3 field-flex">
@@ -364,7 +396,7 @@ const Signup = () => {
                                         ))}
                                         {errors?.gender && <Form.Text className="error">{errors?.gender}</Form.Text>}
                                     </Form.Group>
-                                    <Form.Group className="mb-3 full-w-field" controlId="interested_in">
+                                    <Form.Group className="mb-3 full-w-field" controlId="interested_in" value={formVar.interested_in} onChange={(e) => { handleInputChange(e) }}>
                                         <Form.Label>Interested In*</Form.Label>
                                         {['checkbox'].map((type) => (
                                             <div key={`reverse-${type}`} className="mb-3 field-flex">
@@ -372,24 +404,24 @@ const Signup = () => {
                                                     inline
                                                     reverse
                                                     type={type}
-                                                    name="gender"
-                                                    id={`reverse-${type}-gender-1`}
+                                                    name="interested_in"
+                                                    id={`reverse-${type}-interested_in-1`}
                                                     label="Male"
                                                 />
                                                 <Form.Check
                                                     inline
                                                     reverse
-                                                    name="gender"
+                                                    name="interested_in"
                                                     type={type}
-                                                    id={`reverse-${type}-gender-2`}
+                                                    id={`reverse-${type}-interested_in-2`}
                                                     label="Female"
                                                 />
                                                 <Form.Check
                                                     inline
                                                     reverse
-                                                    name="gender"
+                                                    name="interested_in"
                                                     type={type}
-                                                    id={`reverse-${type}-gender-3`}
+                                                    id={`reverse-${type}-interested_in-3`}
                                                     label="Non-Binary"
                                                 />
                                             </div>

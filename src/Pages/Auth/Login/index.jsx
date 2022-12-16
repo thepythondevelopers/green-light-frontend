@@ -3,6 +3,8 @@ import '../../../assets/css/auth.css';
 import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserAPI } from "../../../Redux/Action/Action";
 import { IoIosArrowBack } from "react-icons/io"
 
 const api = " http://44.211.151.102/api";
