@@ -1,15 +1,13 @@
 import axios from "axios";
 import { ActionTypes } from "../Constants/ActionTypes";
 const api = " http://44.211.151.102/api";
-const  getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
-const getToken = getlocalStorage?.token;
 
 // Get User Info API
-export const getUserAPI = () => {
+export const getUserAPI = (token) => {
     return async (dispatch) => {
         axios.get(`${api}/get-profile`, {
             headers: {
-                "x-access-token": getToken,
+                "x-access-token": token,
                 Accept: "application/json",
                 "Content-Type": "application/json",
             }

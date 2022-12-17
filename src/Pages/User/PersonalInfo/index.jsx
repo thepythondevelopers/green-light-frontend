@@ -14,6 +14,12 @@ import axios from "axios";
 const api = " http://44.211.151.102/api";
 
 const PersonalInfo = () => {
+    // Token 
+    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
+    const getToken = getlocalStorage.token;
+
+    // ============================================================================================================================== //
+
     const user = useSelector((state) => state.userReducer.userInfo);
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
@@ -47,7 +53,7 @@ const PersonalInfo = () => {
     }
 
     useEffect(() => {
-        dispatch(getUserAPI());
+        dispatch(getUserAPI(getToken));
     }, []);
     useEffect(() => {
         setPersonalInfo(user);
@@ -57,8 +63,6 @@ const PersonalInfo = () => {
 
     // Profile Information API
     const profileInfoAPI = (data) => {
-        const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
-        const getToken = getlocalStorage.token;
         console.log("data", getToken);
         fetch(`${api}/personal-information`, {
             method: 'POST',
@@ -71,7 +75,7 @@ const PersonalInfo = () => {
         })
             .then(response => response.text())
             .then(result => {
-                dispatch(getUserAPI());
+                dispatch(getUserAPI(getToken));
                 setPersonalInfo(result);
                 setMessage("Personal Informations are successfully Updated.");
                 setTimeout(() => {

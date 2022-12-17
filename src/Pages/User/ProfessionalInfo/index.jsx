@@ -12,6 +12,11 @@ import axios from "axios";
 const api = " http://44.211.151.102/api";
 
 const ProfessionalInfo = () => {
+    // Token 
+    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
+    const getToken = getlocalStorage.token;
+
+    // ============================================================================================================================== //
     const user = useSelector((state) => state.userReducer.userInfo);
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
@@ -39,7 +44,7 @@ const ProfessionalInfo = () => {
     }
 
     useEffect(() => {
-        dispatch(getUserAPI());
+        dispatch(getUserAPI(getToken));
     }, []);
     useEffect(() => {
         setProfessionalInfo(user);
@@ -60,7 +65,7 @@ const ProfessionalInfo = () => {
             .then(response => response.text())
             .then(result => {
                 setProfessionalInfo(result);
-                dispatch(getUserAPI());
+                dispatch(getUserAPI(getToken));
                 setMessage("Professional Informations are successfully Updated.");
                 setTimeout(() => {
                     setMessage("");

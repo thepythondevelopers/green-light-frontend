@@ -12,6 +12,11 @@ import axios from "axios";
 const api = " http://44.211.151.102/api";
 
 const ContactInformation = () => {
+    // Token 
+    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
+    const getToken = getlocalStorage.token;
+
+    // ============================================================================================================================== //
     const user = useSelector((state) => state.userReducer.userInfo);
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
@@ -40,7 +45,7 @@ const ContactInformation = () => {
     }
 
     useEffect(() => {
-        dispatch(getUserAPI());
+        dispatch(getUserAPI(getToken));
     }, []);
     useEffect(() => {
         setProfessionalInfo(user);
@@ -61,7 +66,7 @@ const ContactInformation = () => {
             .then(response => response.text())
             .then(result => {
                 setProfessionalInfo(result);
-                dispatch(getUserAPI());
+                dispatch(getUserAPI(getToken));
                 setMessage("Location Informations are successfully Updated.");
                 setTimeout(() => {
                     setMessage("");

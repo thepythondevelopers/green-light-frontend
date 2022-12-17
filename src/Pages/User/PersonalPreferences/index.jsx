@@ -12,17 +12,24 @@ import axios from "axios";
 const api = " http://44.211.151.102/api";
 
 const PersonalPreferences = () => {
+
+    // token
+    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
+    const getToken = getlocalStorage.token;
+
+    //=====================================================================================================//
+
     const user = useSelector((state) => state.userReducer.userInfo);
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [personalPreference, setpersonalPreference] = useState({
-        alcohol: "No",
-        smoking: "No",
-        marijuana: "No",
-        drugs: "No",
-        have_kids: "No",
-        want_kids: "No",
+        alcohol: "",
+        smoking: "",
+        marijuana: "",
+        drugs: "",
+        have_kids: "",
+        want_kids: "",
         astrology_sign: "",
         ethinicity: "",
         looking_for: ""
@@ -43,17 +50,15 @@ const PersonalPreferences = () => {
     }
 
     useEffect(() => {
-        dispatch(getUserAPI());
+        dispatch(getUserAPI(getToken));
     }, []);
+
     useEffect(() => {
         setpersonalPreference(user);
     }, [user]);
 
     // Personal Preferences API
     const personalPreferenceAPI = (data) => {
-        const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
-        const getToken = getlocalStorage.token;
-        console.log("data", getToken);
         fetch(`${api}/personal-preferences`, {
             method: 'POST',
             headers: {
@@ -65,10 +70,9 @@ const PersonalPreferences = () => {
         })
             .then(response => response.text())
             .then(result => {
-                dispatch(getUserAPI());
+                dispatch(getUserAPI(getToken));
                 setpersonalPreference(result);
                 setMessage("Personal Preferences are successfully Updated.");
-                console.log("result", result);
                 setTimeout(() => {
                     setMessage("");
                 }, 3000);

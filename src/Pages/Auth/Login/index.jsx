@@ -10,7 +10,10 @@ import { IoIosArrowBack } from "react-icons/io"
 const api = " http://44.211.151.102/api";
 
 const Login = () => {
+    const user = useSelector((state) => state.userReducer.userInfo);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [token, setToken] = useState("");
     // Form Variables
     const [formVar, setFormVar] = useState({
         email: "",
@@ -49,7 +52,13 @@ const Login = () => {
             console.log("formVar", formVar)
             LoginApi(formVar);
         }
-    }, [errors])
+    }, [errors]);
+    useEffect(() => {
+        if (Object.keys(errors).length === 0 && isSubmit) {
+            console.log("formVar", formVar)
+            LoginApi(formVar);
+        }
+    }, [errors]);
 
     // Handle Login API
     const LoginApi = (formResp) => {
@@ -68,6 +77,7 @@ const Login = () => {
                 setTimeout(() => {
                     navigate("/user/personal-info");
                 }, 2000);
+                setToken(localStorage.getItem("user-info"));
             })
             .catch(error => {
                 console.log("LoginApi error::", error);

@@ -14,6 +14,11 @@ import axios from "axios";
 const api = " http://44.211.151.102/api";
 
 const UploadPicture = () => {
+    // Token 
+    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
+    const getToken = getlocalStorage.token;
+
+    // ============================================================================================================================== //
     const user = useSelector((state) => state.userReducer.userInfo);
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
@@ -34,7 +39,7 @@ const UploadPicture = () => {
     // }
 
     useEffect(() => {
-        dispatch(getUserAPI());
+        dispatch(getUserAPI(getToken));
         setImageResult(user);
     }, []);
     useEffect(() => {
@@ -43,7 +48,6 @@ const UploadPicture = () => {
 
     // Personal Preferences API
     const professionalInfoAPI = (data) => {
-        console.log("data", data);
         var formdata = new FormData();
         formdata.append("image", data);
         fetch(`${api}/profile-image`, {
@@ -56,7 +60,7 @@ const UploadPicture = () => {
             .then(response => response.text())
             .then(result => {
                 setImageResult(user);
-                dispatch(getUserAPI());
+                dispatch(getUserAPI(getToken));
                 setMessage(result);
                 setTimeout(() => {
                     setMessage("");

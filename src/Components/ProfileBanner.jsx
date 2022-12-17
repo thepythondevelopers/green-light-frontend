@@ -5,11 +5,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUserAPI } from "../Redux/Action/Action";
 
 const ProfileBanner = () => {
+    // token
+    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
+    const getToken = getlocalStorage.token;
+
+    //=====================================================================================================//
+
     const user = useSelector((state) => state.userReducer.userInfo);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getUserAPI())
+        dispatch(getUserAPI(getToken))
     }, []);
     return (
         <>
