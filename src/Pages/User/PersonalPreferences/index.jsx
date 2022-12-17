@@ -37,11 +37,11 @@ const PersonalPreferences = () => {
 
     console.log("personalPreference", personalPreference);
 
-    const handleInputRadio = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
+    const handleInputChange = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
         setpersonalPreference({ ...personalPreference, [name]: value });
-        console.log("result", personalPreference);
+        console.log("name", name, "value", value);
     }
 
     const handleSubmit = (e) => {
@@ -104,12 +104,12 @@ const PersonalPreferences = () => {
                                     <div className="form-box">
                                         <Row>
                                             <Col className="form-flex">
-                                                <img src="/assets/images/alcohol.svg" alt="alcohal" />
-                                                <Form.Group controlId="alcohol" value={personalPreference.alcohol} onChange={(e) => { console.log(e.target.value); handleInputRadio(e) }}>
+                                                <img src="/assets/images/alcohol.svg" alt="alcohol" />
+                                                <Form.Group controlId="alcohol" value={personalPreference.alcohol} onChange={(e) => { handleInputChange(e) }}>
                                                     <Form.Label>Alcohol:</Form.Label>
                                                     {['radio'].map((type) => {
                                                         return (
-                                                            <div key={`reverse-${type}`} className="mb-3">
+                                                            <div key={`reverse-${type}`} className="mb-3" >
                                                                 <Form.Check
                                                                     inline
                                                                     reverse
@@ -118,7 +118,7 @@ const PersonalPreferences = () => {
                                                                     id={`reverse-${type}-alcohol-1`}
                                                                     label="Yes"
                                                                     value="Yes"
-                                                                    Checked={`${personalPreference.alcohol == "Yes" ? true : false}`}
+                                                                    checked={personalPreference.alcohol === 'Yes'}
                                                                 />
                                                                 <Form.Check
                                                                     inline
@@ -128,7 +128,7 @@ const PersonalPreferences = () => {
                                                                     id={`reverse-${type}-alcohol-2`}
                                                                     label="Sometimes"
                                                                     value="Sometimes"
-                                                                    Checked={`${personalPreference.alcohol == "Sometimes" ? true : false}`}
+                                                                    checked={personalPreference.alcohol === 'Sometimes'}
                                                                 />
                                                                 <Form.Check
                                                                     inline
@@ -138,7 +138,7 @@ const PersonalPreferences = () => {
                                                                     id={`reverse-${type}-alcohol-3`}
                                                                     label="No"
                                                                     value="No"
-                                                                    Checked={`${personalPreference.alcohol == "No" ? true : false}`}
+                                                                    checked={personalPreference.alcohol === 'No'}
                                                                 />
                                                             </div>)
                                                     })}
@@ -146,7 +146,7 @@ const PersonalPreferences = () => {
                                             </Col>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/smoking-room.svg" alt="smoking-room" />
-                                                <Form.Group controlId="smoking" value={personalPreference.smoking} onChange={(e) => { handleInputRadio(e) }}>
+                                                <Form.Group controlId="smoking" value={personalPreference.smoking} onChange={(e) => { handleInputChange(e) }}>
                                                     <Form.Label>Smoking:</Form.Label>
                                                     {['radio'].map((type) => (
                                                         <div key={`reverse-${type}`} className="mb-3">
@@ -158,7 +158,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-smoking-1`}
                                                                 label="Yes"
                                                                 value="Yes"
-                                                                Checked={`${personalPreference.smoking == "Yes" ? true : false}`}
+                                                                checked={personalPreference.smoking === 'Yes'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -168,7 +168,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-smoking-2`}
                                                                 label="Sometimes"
                                                                 value="Sometimes"
-                                                                Checked={`${personalPreference.smoking == "Sometimes" ? true : false}`}
+                                                                checked={personalPreference.smoking === 'Sometimes'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -178,7 +178,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-smoking-3`}
                                                                 label="No"
                                                                 value="No"
-                                                                Checked={`${personalPreference.smoking == "No" ? true : false}`}
+                                                                checked={personalPreference.smoking === 'No'}
                                                             />
                                                         </div>
                                                     ))}
@@ -190,7 +190,7 @@ const PersonalPreferences = () => {
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/drug-pack.svg" alt="drug-pack" />
-                                                <Form.Group controlId="marijuana" value={personalPreference.marijuana} onChange={(e) => { handleInputRadio(e) }}>
+                                                <Form.Group controlId="marijuana" value={personalPreference.marijuana} onChange={(e) => { handleInputChange(e) }}>
                                                     <Form.Label>Marijuana:</Form.Label>
                                                     {['radio'].map((type) => (
                                                         <div key={`reverse-${type}`} className="mb-3">
@@ -202,7 +202,8 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-marijuana-1`}
                                                                 label="Yes"
                                                                 value="Yes"
-                                                                Checked={`${personalPreference.marijuana == "Yes" ? true : false}`}
+                                                                checked={personalPreference.marijuana === 'Yes'}
+
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -212,7 +213,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-marijuana-2`}
                                                                 label="Sometimes"
                                                                 value="Sometimes"
-                                                                Checked={`${personalPreference.marijuana == "Sometimes" ? true : false}`}
+                                                                checked={personalPreference.marijuana === 'Sometimes'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -222,7 +223,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-marijuana-3`}
                                                                 label="No"
                                                                 value="No"
-                                                                Checked={`${personalPreference.marijuana == "No" ? true : false}`}
+                                                                checked={personalPreference.marijuana === 'No'}
                                                             />
                                                         </div>
                                                     ))}
@@ -230,7 +231,7 @@ const PersonalPreferences = () => {
                                             </Col>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/drug-pack.svg" alt="drug-pack" />
-                                                <Form.Group controlId="drugs" value={personalPreference.drugs} onChange={(e) => { handleInputRadio(e) }}>
+                                                <Form.Group controlId="drugs" value={personalPreference.drugs} onChange={(e) => { handleInputChange(e) }}>
                                                     <Form.Label>Drugs:</Form.Label>
                                                     {['radio'].map((type) => (
                                                         <div key={`reverse-${type}`} className="mb-3">
@@ -242,7 +243,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-drugs-1`}
                                                                 label="Yes"
                                                                 value="Yes"
-                                                                Checked={`${personalPreference.drugs == "Yes" ? true : false}`}
+                                                                checked={personalPreference.drugs === 'Yes'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -252,7 +253,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-drugs-2`}
                                                                 label="Sometimes"
                                                                 value="Sometimes"
-                                                                Checked={`${personalPreference.drugs == "Sometimes" ? true : false}`}
+                                                                checked={personalPreference.drugs === 'Sometimes'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -262,7 +263,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-drugs-3`}
                                                                 label="No"
                                                                 value="No"
-                                                                Checked={`${personalPreference.drugs == "No" ? true : false}`}
+                                                                checked={personalPreference.drugs === 'No'}
                                                             />
                                                         </div>
                                                     ))}
@@ -274,7 +275,7 @@ const PersonalPreferences = () => {
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/kid.svg" alt="kid" />
-                                                <Form.Group controlId="have_kids" value={personalPreference.have_kids} onChange={(e) => { handleInputRadio(e) }}>
+                                                <Form.Group controlId="have_kids" value={personalPreference.have_kids} onChange={(e) => { handleInputChange(e) }}>
                                                     <Form.Label>Have Kids:</Form.Label>
                                                     {['radio'].map((type) => (
                                                         <div key={`reverse-${type}`} className="mb-3">
@@ -286,7 +287,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-have_kids-1`}
                                                                 label="Yes"
                                                                 value="Yes"
-                                                                Checked={`${personalPreference.have_kids == "Yes" ? true : false}`}
+                                                                checked={personalPreference.have_kids === 'Yes'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -296,7 +297,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-have_kids-2`}
                                                                 label="No"
                                                                 value="No"
-                                                                Checked={`${personalPreference.have_kids == "No" ? true : false}`}
+                                                                checked={personalPreference.have_kids === 'No'}
                                                             />
                                                         </div>
                                                     ))}
@@ -304,7 +305,7 @@ const PersonalPreferences = () => {
                                             </Col>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/kid.svg" alt="kid" />
-                                                <Form.Group controlId="want_kids" value={personalPreference.want_kids} onChange={(e) => { handleInputRadio(e) }}  >
+                                                <Form.Group controlId="want_kids" value={personalPreference.want_kids} onChange={(e) => { handleInputChange(e) }}  >
                                                     <Form.Label>Want Kids:</Form.Label>
                                                     {['radio'].map((type) => (
                                                         <div key={`reverse-${type}`} className="mb-3">
@@ -316,7 +317,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-want_kids-1`}
                                                                 label="Yes"
                                                                 value="Yes"
-                                                                Checked={`${personalPreference.want_kids == "Yes" ? true : false}`}
+                                                                checked={personalPreference.want_kids === 'Yes'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -326,7 +327,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-want_kids-2`}
                                                                 label="No"
                                                                 value="No"
-                                                                Checked={`${personalPreference.want_kids == "No" ? true : false}`}
+                                                                checked={personalPreference.want_kids === 'No'}
                                                             />
                                                         </div>
                                                     ))}
@@ -340,7 +341,7 @@ const PersonalPreferences = () => {
                                                 <img src="/assets/images/zodiac-gemini.svg" alt="zodiac-gemini" />
                                                 <Form.Group controlId="astrology_sign">
                                                     <Form.Label>Astrology Sign:</Form.Label>
-                                                    <Form.Select defaultValue="Choose..." name="astrology_sign" value={personalPreference.astrology_sign} onChange={(e) => { handleInputRadio(e) }}>
+                                                    <Form.Select defaultValue="Choose..." name="astrology_sign" value={personalPreference.astrology_sign} onChange={(e) => { handleInputChange(e) }}>
                                                         <option>Choose...</option>
                                                         <option value="Aries">Aries</option>
                                                         <option value="Taurus">Taurus</option>
@@ -365,7 +366,7 @@ const PersonalPreferences = () => {
                                                 <img src="/assets/images/people-group.svg" alt="people-group" />
                                                 <Form.Group controlId="ethinicity">
                                                     <Form.Label>Ethnicity:</Form.Label>
-                                                    <Form.Select defaultValue="Choose..." name="ethinicity" value={personalPreference.ethinicity} onChange={(e) => { handleInputRadio(e) }}>
+                                                    <Form.Select defaultValue="Choose..." name="ethinicity" value={personalPreference.ethinicity} onChange={(e) => { handleInputChange(e) }}>
                                                         <option>Choose...</option>
                                                         <option value="indigenous">Indigenous</option>
                                                         <option value="pacific-islander">Pacific Islander</option>
@@ -381,7 +382,7 @@ const PersonalPreferences = () => {
                                         <Row>
                                             <Col className="form-flex">
                                                 <img src="/assets/images/gender-ambiguous.svg" alt="gender-ambiguous" />
-                                                <Form.Group controlId="looking_for" value={personalPreference.looking_for} onChange={(e) => { handleInputRadio(e) }}>
+                                                <Form.Group controlId="looking_for" value={personalPreference.looking_for} onChange={(e) => { handleInputChange(e) }}>
                                                     <Form.Label>I'm looking for:</Form.Label>
                                                     {['checkbox'].map((type) => (
                                                         <div key={`reverse-${type}`} className="mb-3">
@@ -393,7 +394,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-1`}
                                                                 label="Relationship"
                                                                 value="Relationship"
-                                                                Checked={`${personalPreference.looking_for == "Relationship" ? true : false}`}
+                                                                checked={personalPreference.looking_for === 'Relationship'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -403,7 +404,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-2`}
                                                                 label="Dating"
                                                                 value="Dating"
-                                                                Checked={`${personalPreference.looking_for == "Dating" ? true : false}`}
+                                                                checked={personalPreference.looking_for === 'Dating'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -413,7 +414,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-3`}
                                                                 label="Friendship"
                                                                 value="Friendship"
-                                                                Checked={`${personalPreference.looking_for == "Friendship" ? true : false}`}
+                                                                checked={personalPreference.looking_for === 'Friendship'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -423,7 +424,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-4`}
                                                                 label="Networking"
                                                                 value="Networking"
-                                                                Checked={`${personalPreference.looking_for == "Networking" ? true : false}`}
+                                                                checked={personalPreference.looking_for === 'Networking'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -433,7 +434,7 @@ const PersonalPreferences = () => {
                                                                 id={`reverse-${type}-looking_for-5`}
                                                                 label="Other"
                                                                 value="Other"
-                                                                Checked={`${personalPreference.looking_for == "Other" ? true : false}`}
+                                                                checked={personalPreference.looking_for === 'Other'}
                                                             />
                                                         </div>
                                                     ))}
@@ -447,7 +448,7 @@ const PersonalPreferences = () => {
                                                 <img src="/assets/images/id-card.svg" alt="id-card" />
                                                 <Form.Group controlId="religion">
                                                     <Form.Label>Religion:</Form.Label>
-                                                    <Form.Select defaultValue="Type anything..." name="religion" value={personalPreference.religion} onChange={(e) => { handleInputRadio(e) }}>
+                                                    <Form.Select defaultValue="Type anything..." name="religion" value={personalPreference.religion} onChange={(e) => { handleInputChange(e) }}>
                                                         <option>Type anything...</option>
                                                         <option value="Hazel">Hazel</option>
                                                     </Form.Select>
@@ -461,7 +462,7 @@ const PersonalPreferences = () => {
                                                 <img src="/assets/images/political.svg" alt="political" />
                                                 <Form.Group controlId="politics">
                                                     <Form.Label>Politics:</Form.Label>
-                                                    <Form.Select defaultValue="Choose..." name="politics" value={personalPreference.politics} onChange={(e) => { handleInputRadio(e) }}>
+                                                    <Form.Select defaultValue="Choose..." name="politics" value={personalPreference.politics} onChange={(e) => { handleInputChange(e) }}>
                                                         <option>Choose...</option>
                                                         <option value="Moderate">Moderate</option>
                                                     </Form.Select>

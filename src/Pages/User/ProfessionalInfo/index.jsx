@@ -110,7 +110,7 @@ const ProfessionalInfo = () => {
                                                                 id={`reverse-${type}-have_car-1`}
                                                                 label="Yes"
                                                                 value="Yes"
-                                                                Checked={`${professionalInfo.have_car == "Yes" ? true : false}`}
+                                                                checked={professionalInfo.have_car === 'Yes'}
                                                             />
                                                             <Form.Check
                                                                 inline
@@ -120,7 +120,7 @@ const ProfessionalInfo = () => {
                                                                 id={`reverse-${type}-have_car-2`}
                                                                 label="No"
                                                                 value="No"
-                                                                Checked={`${professionalInfo.have_car == "No" ? true : false}`}
+                                                                checked={professionalInfo.have_car === 'No'}
                                                             />
                                                         </div>
                                                     ))}
