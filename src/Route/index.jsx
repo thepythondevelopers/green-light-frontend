@@ -20,6 +20,7 @@ import Discover from "../Pages/User/Discover";
 import Chat from "../Pages/User/Chat";
 import Paymenet from "../Pages/User/Paymenet";
 import ContactList from "../Pages/User/ContactList";
+import Test from "../Pages/User/Test";
 import NotFound from "../Pages/NotFound";
 
 const Router = () => {
@@ -48,6 +49,7 @@ const Router = () => {
                         <Route path="contact-list" element={<ContactList />} />
                         <Route path="matches" element={<Matches />} />
                         <Route path="paymenet" element={<Paymenet />} />
+                        <Route path="test" element={<Test />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>
