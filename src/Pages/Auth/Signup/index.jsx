@@ -118,7 +118,10 @@ const Signup = () => {
         let name = e.target.name;
         let value = e.target.value;
         setFormVar({ ...formVar, [name]: value });
-        console.log("name", name, "value", value);
+    }
+    const handleDateChange = (e) => {
+        setFormVar({ ...formVar, "dob": [formVar.year, parseInt(formVar.month) + 1, formVar.day].join("-") });
+        console.log("formVar", formVar);
     }
 
     // Step1
@@ -144,9 +147,7 @@ const Signup = () => {
     // step2
     const handleSignupStep2 = (e) => {
         e.preventDefault();
-        let date = [formVar.year, parseInt(formVar.month) + 1, formVar.day].join("-");
         setErrors(validationStep2(formVar));
-        setFormVar({ ...formVar, "dob": date });
         setIsSubmit(true);
     }
 
@@ -300,7 +301,7 @@ const Signup = () => {
                                                     reverse
                                                     required={true}
                                                     onChange={(month) => {
-                                                        setFormVar({ ...formVar, "month": month });
+                                                        setFormVar({ ...formVar, "month": month, "dob": [formVar.year, parseInt(month) + 1, formVar.day].join("-") });
                                                     }}
                                                     id={'month'}
                                                     name={'month'}
@@ -321,7 +322,7 @@ const Signup = () => {
                                                     required={true}
                                                     value={formVar.day}
                                                     onChange={(day) => {
-                                                        setFormVar({ ...formVar, "day": day });
+                                                        setFormVar({ ...formVar, "day": day, "dob": [formVar.year, parseInt(formVar.month) + 1, day].join("-") });
                                                     }}
                                                     id={'day'}
                                                     name={'day'}
@@ -341,7 +342,7 @@ const Signup = () => {
                                             required={true}
                                             value={formVar.year}
                                             onChange={(year) => {
-                                                setFormVar({ ...formVar, "year": year });
+                                                setFormVar({ ...formVar, "year": year, "dob": [year, parseInt(formVar.month) + 1, formVar.day].join("-") });
                                             }}
                                             id={'year'}
                                             name={'year'}

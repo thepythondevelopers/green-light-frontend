@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useJsApiLoader, GoogleMap, Marker, Autocomplete, DirectionsRenderer, } from '@react-google-maps/api';
+import { useJsApiLoader, useLoadScript, GoogleMap, Marker, Autocomplete, DirectionsRenderer, } from '@react-google-maps/api';
 import "./style.css";
 
 const containerStyle = {
@@ -16,27 +16,27 @@ const Test = () => {
     // Google Map API
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyCt4IePxZKJTt2fz8HT1OztD2aXEsKSFiY",
+        googleMapsApiKey: "AIzaSyAf0pDKUsl4WzjNdeKtiuABBy1KMrJGEXw",
         libraries: ['places']
     })
-    // const [map, setMap] = useState(null)
+    const [map, setMap] = useState(null)
 
-    // const onLoad = React.useCallback(function callback(map) {
-    //     // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    //     const bounds = new window.google.maps.LatLngBounds(center);
-    //     map.fitBounds(bounds);
+    const onLoad = React.useCallback(function callback(map) {
+        // This is just an example of getting and using the map instance!!! don't just blindly copy!
+        const bounds = new window.google.maps.LatLngBounds(center);
+        map.fitBounds(bounds);
 
-    //     setMap(map)
-    // }, [])
+        setMap(map)
+    }, [])
 
-    // const onUnmount = React.useCallback(function callback(map) {
-    //     setMap(null)
-    // }, [])
+    const onUnmount = React.useCallback(function callback(map) {
+        setMap(null)
+    }, [])
     return (
         <>
             <div className="googlemap-flex">
                 <div className="googleMap-box">
-                    {/* <GoogleMap
+                    <GoogleMap
                         mapContainerStyle={containerStyle}
                         center={center}
                         zoom={10}
@@ -51,7 +51,7 @@ const Test = () => {
                     >
 
                         <Marker position={center} />
-                    </GoogleMap> */}
+                    </GoogleMap>
 
                     <Autocomplete>
                         <input type="text" name="" id="" />

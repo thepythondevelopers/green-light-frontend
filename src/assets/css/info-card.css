@@ -375,3 +375,20 @@
 .info-card .form-wrap .membership-plan-list .membership-list {
     border-top: 2px solid #F0F0F0;
 }
+
+.location input {
+    display: block;
+    width: 100%;
+    border: 2px solid #F0F0F0;
+    border-radius: 0;
+    height: 44px;
+    box-shadow: none;
+    padding: .375rem .75rem;
+    outline: none;
+}
+
+.location-dropOption p {
+    padding: 10px;
+    border: 2px solid #F0F0F0;
+    border-top: 0;
+}

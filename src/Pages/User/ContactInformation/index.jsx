@@ -6,49 +6,79 @@ import ProfileBanner from "../../../Components/ProfileBanner";
 import { Container, Row, Col, Form, Alert } from "react-bootstrap";
 import { FaUserCircle } from 'react-icons/fa';
 import "../../../assets/css/info-card.css";
+import CountryForm from "../../../assets/data/Country";
+import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
 import { useSelector, useDispatch } from "react-redux";
 import { getUserAPI } from "../../../Redux/Action/Action";
 import axios from "axios";
 const api = " http://44.211.151.102/api";
 
 const ContactInformation = () => {
-    // Token 
-    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
-    const getToken = getlocalStorage.token;
-
-    // ============================================================================================================================== //
     const user = useSelector((state) => state.userReducer.userInfo);
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [professionalInfo, setProfessionalInfo] = useState({
-        email: "",
-        have_car: "",
-        work_position: "",
-        work_employer: "",
-        education_degree: "",
-        education_school: "",
-        about_me: ""
+    const [locationInfo, setLocationInfo] = useState({
+        location: "",
+        mobile: "",
+        country: "",
+        state: "",
+        city: "",
+        zipcode: ""
     });
+
+    // Country and State
+    const [ctyId, setCtyId] = useState(1);
+    const [stateDrop, setStateDrop] = useState();
+
+    const handleCountryChange = (e) => {
+        const getCountryID = e.target.value;
+        setLocationInfo({ ...locationInfo, "country": getCountryID });
+        setCtyId(getCountryID)
+    };
+    useEffect(() => {
+        let dataState;
+        CountryForm.forEach((curelem) => {
+            if (ctyId === curelem.country_id) {
+                dataState = curelem.states;
+            }
+        });
+        setStateDrop(dataState);
+
+    }, [ctyId]);
+
 
     const handleProfessionalInfo = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setProfessionalInfo({ ...professionalInfo, [name]: value });
-        console.log("professionalInfo name", name);
-        console.log("professionalInfo value", value);
+        setLocationInfo({ ...locationInfo, [name]: value });
+    }
+    const [address, setAddress] = useState("");
+
+    const handleChange = (value) => {
+        setAddress(value);
+        setLocationInfo({ ...locationInfo, "location": value });
+    }
+
+    const handleSelect = (value) => {
+        geocodeByAddress(value)
+            .then(results => getLatLng(results[0]))
+            .then(latLng => console.log('Success', latLng))
+            .catch(error => console.error('Error', error));
+        setAddress(value);
+        setLocationInfo({ ...locationInfo, "location": value });
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        professionalInfoAPI(professionalInfo)
+        professionalInfoAPI(locationInfo)
     }
 
     useEffect(() => {
-        dispatch(getUserAPI(getToken));
+        dispatch(getUserAPI());
     }, []);
     useEffect(() => {
-        setProfessionalInfo(user);
+        setLocationInfo(user);
     }, [user]);
 
     // Personal Preferences API
@@ -65,8 +95,8 @@ const ContactInformation = () => {
         })
             .then(response => response.text())
             .then(result => {
-                setProfessionalInfo(result);
-                dispatch(getUserAPI(getToken));
+                setLocationInfo(result);
+                dispatch(getUserAPI());
                 setMessage("Location Informations are successfully Updated.");
                 setTimeout(() => {
                     setMessage("");
@@ -98,12 +128,38 @@ const ContactInformation = () => {
                                     <div className="form-box">
                                         <Row>
                                             <Col>
-                                                <Form.Group controlId="location">
+                                                <Form.Group controlId="location" class="location">
                                                     <Form.Label>Location:</Form.Label>
-                                                    <Form.Select defaultValue="Palmyra, New York" name="location" value={professionalInfo.location} onChange={(e) => { handleProfessionalInfo(e) }}>
-                                                        <option>Palmyra, New York</option>
-                                                        <option>Female</option>
-                                                    </Form.Select>
+                                                    <PlacesAutocomplete
+                                                        value={locationInfo.location}
+                                                        onChange={handleChange}
+                                                        onSelect={handleSelect}
+                                                    >
+                                                        {({
+                                                            getInputProps,
+                                                            suggestions,
+                                                            getSuggestionItemProps,
+                                                            loading,
+                                                        }) => (
+                                                            <>
+                                                                <input
+                                                                    {...getInputProps({
+                                                                        placeholder: "Enter Location...",
+                                                                    })}
+                                                                />
+                                                                <div className="location-dropOption">
+                                                                    {loading && <div>Loading...</div>}
+                                                                    {suggestions.map((suggestion) => {
+                                                                        return (
+                                                                            <p {...getSuggestionItemProps(suggestion)}>
+                                                                                {suggestion.description}
+                                                                            </p>
+                                                                        );
+                                                                    })}
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                    </PlacesAutocomplete>
                                                 </Form.Group>
                                             </Col>
                                         </Row>
@@ -113,13 +169,13 @@ const ContactInformation = () => {
                                             <Col>
                                                 <Form.Group controlId="mobile">
                                                     <Form.Label>Mobile</Form.Label>
-                                                    <Form.Control type="tel" placeholder="Your mobile number" name="mobile" value={professionalInfo.mobile} onChange={(e) => { handleProfessionalInfo(e) }} />
+                                                    <Form.Control type="tel" placeholder="Your mobile number" name="mobile" value={locationInfo.mobile} onChange={(e) => { handleProfessionalInfo(e) }} />
                                                 </Form.Group>
                                             </Col>
                                             <Col>
                                                 <Form.Group controlId="email">
                                                     <Form.Label>Email address:</Form.Label>
-                                                    <Form.Control type="email" placeholder="Enter email address" disabled name="email" value={professionalInfo.email} onChange={(e) => { handleProfessionalInfo(e) }} />
+                                                    <Form.Control type="email" placeholder="Enter email address" disabled name="email" value={locationInfo.email} onChange={(e) => { handleProfessionalInfo(e) }} />
                                                 </Form.Group>
                                             </Col>
                                         </Row>
@@ -129,18 +185,29 @@ const ContactInformation = () => {
                                             <Col>
                                                 <Form.Group controlId="country">
                                                     <Form.Label>Country:</Form.Label>
-                                                    <Form.Select defaultValue="Country / Region" name="country" value={professionalInfo.country} onChange={(e) => { handleProfessionalInfo(e) }}>
-                                                        <option>Country / Region</option>
-                                                        <option>5'6”</option>
+                                                    <Form.Select defaultValue="Country/Region" name="country" value={locationInfo.country} onChange={(e) => handleCountryChange(e)}>
+                                                        <option>Country/Region</option>
+                                                        {CountryForm?.map((curelem, index) => {
+                                                            return (
+                                                                <option key={curelem.country_id} value={curelem.country_id}>{curelem.country_name}</option>
+                                                            )
+                                                        })
+                                                        }
                                                     </Form.Select>
                                                 </Form.Group>
                                             </Col>
                                             <Col>
                                                 <Form.Group controlId="state">
                                                     <Form.Label>State:</Form.Label>
-                                                    <Form.Select defaultValue="State / Province" name="state" value={professionalInfo.state} onChange={(e) => { handleProfessionalInfo(e) }}>
-                                                        <option>State / Province</option>
-                                                        <option>5'6”</option>
+                                                    <Form.Select defaultValue="State/Province" name="state" value={locationInfo.state} onChange={(e) => handleProfessionalInfo(e)}>
+                                                        <option>State/Province</option>
+                                                        {
+                                                            stateDrop?.map((curelem) => {
+                                                                return (
+                                                                    <option key={curelem.state_id} value={curelem.state_id}>{curelem.state_name}</option>
+                                                                )
+                                                            })
+                                                        }
                                                     </Form.Select>
                                                 </Form.Group>
                                             </Col>
@@ -151,19 +218,13 @@ const ContactInformation = () => {
                                             <Col>
                                                 <Form.Group controlId="city">
                                                     <Form.Label>City:</Form.Label>
-                                                    <Form.Select defaultValue="Your city" name="city" value={professionalInfo.city} onChange={(e) => { handleProfessionalInfo(e) }}>
-                                                        <option>Your city</option>
-                                                        <option selected>Hazel</option>
-                                                    </Form.Select>
+                                                    <Form.Control type="text" name="city" placeholder="Your city" value={locationInfo.city} onChange={(e) => handleProfessionalInfo(e)} />
                                                 </Form.Group>
                                             </Col>
                                             <Col>
                                                 <Form.Group controlId="zipcode">
                                                     <Form.Label>Zipcode:</Form.Label>
-                                                    <Form.Select defaultValue="Your ZIP code" name="zipcode" value={professionalInfo.zipcode} onChange={(e) => { handleProfessionalInfo(e) }}>
-                                                        <option>Your ZIP code</option>
-                                                        <option selected>Blonde</option>
-                                                    </Form.Select>
+                                                    <Form.Control type="text" name="zipcode" placeholder="Your ZIP code" value={locationInfo.zipcode} onChange={(e) => handleProfessionalInfo(e)} />
                                                 </Form.Group>
                                             </Col>
                                         </Row>
