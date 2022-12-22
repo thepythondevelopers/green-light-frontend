@@ -14,6 +14,12 @@ import axios from "axios";
 const api = " http://44.211.151.102/api";
 
 const ContactInformation = () => {
+    // token
+    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
+    const getToken = getlocalStorage.token;
+
+    //=====================================================================================================//
+
     const user = useSelector((state) => state.userReducer.userInfo);
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
@@ -24,7 +30,8 @@ const ContactInformation = () => {
         country: "",
         state: "",
         city: "",
-        zipcode: ""
+        zipcode: "",
+        latLng: "",
     });
 
     // Country and State
@@ -58,15 +65,20 @@ const ContactInformation = () => {
     const handleChange = (value) => {
         setAddress(value);
         setLocationInfo({ ...locationInfo, "location": value });
+        geocodeByAddress(value)
+            .then(results => getLatLng(results[0]))
+            .then(latLng => { setLocationInfo({ ...locationInfo, "location": value, "latLng": latLng }); })
+            .catch(error => console.error('Error', error));
+        console.log("locationInfo:::::Change:::::::::::;;", locationInfo);
     }
 
     const handleSelect = (value) => {
+        setAddress(value);
         geocodeByAddress(value)
             .then(results => getLatLng(results[0]))
-            .then(latLng => console.log('Success', latLng))
+            .then(latLng => { setLocationInfo({ ...locationInfo, "location": value, "latLng": latLng }); })
             .catch(error => console.error('Error', error));
-        setAddress(value);
-        setLocationInfo({ ...locationInfo, "location": value });
+        console.log("locationInfo", locationInfo);
     }
 
     const handleSubmit = (e) => {
@@ -75,7 +87,7 @@ const ContactInformation = () => {
     }
 
     useEffect(() => {
-        dispatch(getUserAPI());
+        dispatch(getUserAPI(getToken));
     }, []);
     useEffect(() => {
         setLocationInfo(user);
@@ -96,7 +108,7 @@ const ContactInformation = () => {
             .then(response => response.text())
             .then(result => {
                 setLocationInfo(result);
-                dispatch(getUserAPI());
+                dispatch(getUserAPI(getToken));
                 setMessage("Location Informations are successfully Updated.");
                 setTimeout(() => {
                     setMessage("");
