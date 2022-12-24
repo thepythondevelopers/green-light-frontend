@@ -36,3 +36,22 @@
 .dashboard-wrap-inner .slick-arrow::before {
     display: none;
 }
+
+.not-found {
+    font-size: 22px;
+    font-weight: bold;
+    position: relative;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.not-found::before {
+    content: '';
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    width: 111px;
+    background: #165432;
+    height: 3px;
+    transform: translateX(-50%);
+}

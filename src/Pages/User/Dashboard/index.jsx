@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Header from "../../../Shared/Header";
 import Footer from "../../../Shared/Footer";
 import ProfileBanner from "../../../Components/ProfileBanner";
@@ -8,6 +8,8 @@ import { Container } from "react-bootstrap";
 import "../../../assets/css/dashboard.css";
 import Slider from "react-slick";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserAPI } from "../../../Redux/Action/Action";
 const api = "http://44.211.151.102/api";
 
 function SampleNextArrow(props) {
@@ -31,6 +33,15 @@ function SamplePrevArrow(props) {
 }
 
 const Dashboard = () => {
+    // token
+    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
+    const getToken = getlocalStorage.token;
+
+    //=====================================================================================================//
+    const user = useSelector((state) => state.userReducer.userInfo);
+    // console.log("user?.interested_in", user.length > 0 & user?.interested_in[0])
+    const interest = user.interested_in;
+    const dispatch = useDispatch();
     const settings = {
         arrow: true,
         dots: false,
@@ -45,20 +56,28 @@ const Dashboard = () => {
     const [matchingAlgo, setMatchingAlgo] = useState("");
     const [matchAlgoData, setMatchAlgoData] = useState({
         search: 1,
-        interested_in: "Male",
-        age_from: 10,
-        age_to: 100000,
+        interested_in: "",
+        age_from: 18,
+        age_to: 100,
         eyes: "",
         hair_color: "",
         religion: ""
     })
     useEffect(() => {
-        getMatchAlgo(matchAlgoData);
+        dispatch(getUserAPI(getToken));
     }, []);
 
     // Get MatchingAlgo
-    const getMatchAlgo = (data) => {
-        console.log("data", data)
+    const getMatchAlgo = (interest) => {
+        const data = {
+            search: 1,
+            interested_in: interest,
+            age_from: 18,
+            age_to: 100,
+            eyes: "",
+            hair_color: "",
+            religion: ""
+        }
         fetch(`${api}/matching-algo`, {
             method: 'POST',
             headers: {
@@ -77,6 +96,15 @@ const Dashboard = () => {
                 console.log('error', error);
             });
     }
+    useMemo(() => {
+        let userInterest = "";
+        console.log(user.length);
+        if (Object.keys(user).length > 0) {
+            console.log("test");
+            userInterest = user?.interested_in[0]
+            getMatchAlgo(userInterest);
+        }
+    }, [user])
     return (
         <>
             <Header />
@@ -86,11 +114,15 @@ const Dashboard = () => {
                     <div className="dashboard-wrap-inner">
                         <Slider {...settings}>
                             {
-                                matchingAlgo.length > 0 && matchingAlgo.map((curElem, index) => {
+                                matchingAlgo.length > 0 &&
+                                matchingAlgo.map((curElem, index) => {
                                     return (
-                                        <MatchCard data={curElem} />
+                                        <MatchCard key={index} data={curElem} />
                                     )
                                 })
+                            }
+                            {
+                                matchingAlgo.length == 0 && (<p className="not-found">Not Found any result related to your profile</p>)
                             }
                         </Slider>
                         <AdvertisementLS />

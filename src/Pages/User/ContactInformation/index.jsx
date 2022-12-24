@@ -67,23 +67,24 @@ const ContactInformation = () => {
         setLocationInfo({ ...locationInfo, "location": value });
         geocodeByAddress(value)
             .then(results => getLatLng(results[0]))
-            .then(latLng => { setLocationInfo({ ...locationInfo, "location": value, "latLng": latLng }); })
+            .then(latLng => { setLocationInfo({ ...locationInfo, "location": value, "latLng": [latLng.lat, latLng.lng].toString() }); })
             .catch(error => console.error('Error', error));
-        console.log("locationInfo:::::Change:::::::::::;;", locationInfo);
     }
 
     const handleSelect = (value) => {
         setAddress(value);
         geocodeByAddress(value)
             .then(results => getLatLng(results[0]))
-            .then(latLng => { setLocationInfo({ ...locationInfo, "location": value, "latLng": latLng }); })
+            .then(latLng => {
+                setLocationInfo({ ...locationInfo, "location": value, "latLng": [latLng.lat, latLng.lng].toString() });
+            })
             .catch(error => console.error('Error', error));
-        console.log("locationInfo", locationInfo);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         professionalInfoAPI(locationInfo)
+        console.log("locationInfo", locationInfo);
     }
 
     useEffect(() => {
