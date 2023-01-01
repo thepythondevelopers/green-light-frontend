@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
 import '../../../assets/css/auth.css';
 import { Link, useNavigate } from "react-router-dom";
-import { Row, Col, Button, Form } from 'react-bootstrap';
+import { Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { getUserAPI } from "../../../Redux/Action/Action";
 import { IoIosArrowBack } from "react-icons/io"
 
 const api = " http://44.211.151.102/api";
 
 const Login = () => {
-    const user = useSelector((state) => state.userReducer.userInfo);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [token, setToken] = useState("");
     // Form Variables
     const [formVar, setFormVar] = useState({
         email: "",
         password: ""
     });
     const [errors, setErrors] = useState("");
+    const [loginError, setLoginError] = useState("");
+    const [message, setMessage] = useState("");
     const [isSubmit, setIsSubmit] = useState(false);
 
     // On Change Event
@@ -73,11 +70,17 @@ const Login = () => {
         })
             .then(result => {
                 console.log("LoginApi result::", result);
-                localStorage.setItem("user-info", JSON.stringify(result.data));
-                setTimeout(() => {
-                    navigate("/user/personal-info");
-                }, 2000);
-                setToken(localStorage.getItem("user-info"));
+                if (!result.data.error) {
+                    setLoginError("");
+                    setMessage("Sucessfully Login! You will redirected to the Personal Info Page");
+                    localStorage.setItem("user-info", JSON.stringify(result.data));
+                    setTimeout(() => {
+                        setMessage("");
+                        navigate("/user/personal-info");
+                    }, 2000);
+                } else {
+                    setLoginError(result.data.error)
+                }
             })
             .catch(error => {
                 console.log("LoginApi error::", error);
@@ -130,6 +133,8 @@ const Login = () => {
                                     </Form.Group>
                                     <Link to={"/forget-password"} className="cmn_link">Forgot password?</Link>
                                 </div>
+                                {message && <Alert variant="success"> <p>{message}</p></Alert>}
+                                {loginError && <Alert variant="danger"> <p>{loginError}</p></Alert>}
                                 <Button className="cmn_btn cmn_green" variant="primary" type="submit" onClick={(e) => handleForSubmit(e)}>
                                     Sign In
                                 </Button>

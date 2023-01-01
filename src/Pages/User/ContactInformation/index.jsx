@@ -31,7 +31,10 @@ const ContactInformation = () => {
         state: "",
         city: "",
         zipcode: "",
-        latLng: "",
+        latLng: {
+            type: "",
+            coordinates: []
+        }
     });
 
     // Country and State
@@ -65,20 +68,57 @@ const ContactInformation = () => {
     const handleChange = (value) => {
         setAddress(value);
         setLocationInfo({ ...locationInfo, "location": value });
+        // result coordinates
         geocodeByAddress(value)
             .then(results => getLatLng(results[0]))
-            .then(latLng => { setLocationInfo({ ...locationInfo, "location": value, "latLng": [latLng.lat, latLng.lng].toString() }); })
+            .then(latLng => {
+                setLocationInfo({
+                    ...locationInfo, "location": value, "latLng": {
+                        "type": "Point",
+                        "coordinates": [latLng.lat, latLng.lng]
+                    }
+                });
+            })
             .catch(error => console.error('Error', error));
+        // // result type
+        // geocodeByAddress(value)
+        //     .then(results => {
+        //         console.log("results[0]", results[0])
+        //         setLocationInfo({
+        //             ...locationInfo, "location": value, "latLng": {
+        //                 ...locationInfo.latLng,
+        //                 "type": results[0].types.toString()
+        //             }
+        //         });
+        //     })
     }
 
     const handleSelect = (value) => {
         setAddress(value);
+        // Get Coordinates 
         geocodeByAddress(value)
             .then(results => getLatLng(results[0]))
             .then(latLng => {
-                setLocationInfo({ ...locationInfo, "location": value, "latLng": [latLng.lat, latLng.lng].toString() });
+                setLocationInfo({
+                    ...locationInfo, "location": value, "latLng": {
+                        "type": "Point",
+                        "coordinates": [latLng.lat, latLng.lng]
+                    }
+                });
             })
             .catch(error => console.error('Error', error));
+
+        // // result type
+        // geocodeByAddress(value)
+        //     .then(results => {
+        //         console.log("results[0]", results[0])
+        //         setLocationInfo({
+        //             ...locationInfo, "location": value, "latLng": {
+        //                 ...locationInfo.latLng,
+        //                 "type": results[0].types.toString()
+        //             }
+        //         });
+        //     })
     }
 
     const handleSubmit = (e) => {

@@ -187,7 +187,8 @@ const Signup = () => {
             })
             .catch(error => {
                 console.log("LoginApi error::", error);
-                if (error.response.data.error[0].msg == "E-mail already in use") {
+                setEmailError(error.response.data.error[0].message)
+                if (error.response.data.error[0].message == "E-mail already in use") {
                     setEmailError("E-mail already in use");
                 } else {
                     setEmailError("");
@@ -478,6 +479,7 @@ const Signup = () => {
                                             </Form.Group>
                                         </Col>
                                     </Row>
+                                    {emailError && <Form.Text className="error">{emailError}</Form.Text>}
                                     <Button className="cmn_btn cmn_green" variant="primary" type="submit" onClick={(e) => finalStep(e)}>
                                         Submit
                                     </Button>

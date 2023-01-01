@@ -5,9 +5,9 @@ const initialState = {
 export const userReducer = (state = initialState, {type, payload}) => {
     switch (type) {
         case ActionTypes.GET_USER_INFO :
-            return {userInfo : payload };
+            return {...state, userInfo : payload };
         case ActionTypes.GET_USER_ERROR :
-            return {userInfo : payload };
+            return {...state, userInfo : payload };
         default:
             return state;
     }

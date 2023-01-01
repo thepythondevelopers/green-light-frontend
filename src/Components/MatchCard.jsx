@@ -14,6 +14,7 @@ import { GiAges, GiBigDiamondRing } from "react-icons/gi";
 import { CiLocationOn } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 import { TiLocationArrow } from "react-icons/ti";
+import { useEffect } from "react";
 const api = " http://44.211.151.102/api";
 
 const MatchCard = (props) => {
@@ -27,10 +28,26 @@ const MatchCard = (props) => {
         slidesToScroll: 1,
 
     };
+    const [isAge, setAge] = useState("");
+    const getAge = (age) => {
+        let dob = age.split("-");
+        let year = Number(dob[0]);
+        let month = Number(dob[2]) - 1;
+        let day = Number(dob[1]);
+        let today = new Date();
+        let ageResult = today.getFullYear() - year;
+        if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
+            age--;
+        }
+        setAge(ageResult)
+    }
     const [light, setLight] = useState({
         sent_to: "",
         sent_light: ""
     });
+    useEffect(() => {
+        props?.data?.dob && getAge(props?.data?.dob)
+    }, [props])
     // Get Save Light
     const saveLightApi = (data) => {
         let dataMessage;
@@ -81,7 +98,9 @@ const MatchCard = (props) => {
                 </div>
                 <div className="matchCard-cont">
                     <h3>{props?.data?.display_name}</h3>
-                    <p className="locationName"><CiLocationOn /> {props?.data?.city} {props?.data?.country}</p>
+                    {
+                        props?.data?.location && <p className="locationName"><CiLocationOn /> {props?.data?.location}</p>
+                    }
                     <div className="matchCard-box">
                         <Row>
                             {props?.data?.dob &&
@@ -90,7 +109,7 @@ const MatchCard = (props) => {
                                         <GiAges />
                                         <div className="matchCard-boxItem">
                                             <h6>Age</h6>
-                                            <p>{props?.data?.dob}</p>
+                                            <p>{isAge}</p>
                                         </div>
                                     </div>
                                 </Col>
