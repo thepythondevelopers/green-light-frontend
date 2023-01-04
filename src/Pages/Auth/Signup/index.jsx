@@ -5,6 +5,7 @@ import { Row, Col, Button, Form } from 'react-bootstrap';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
 import CountryForm from "../../../assets/data/Country";
+import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-autocomplete';
 import { DayPicker, MonthPicker, YearPicker } from "react-dropdown-date";
 import axios from "axios";
 
@@ -28,7 +29,11 @@ const Signup = () => {
         country: "",
         state: "",
         city: "",
-        zipcode: ""
+        zipcode: "",
+        latLng: {
+            type: "Point",
+            coordinates: [0, 0]
+        }
     });
     const [errors, setErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
@@ -58,6 +63,43 @@ const Signup = () => {
         setStateDrop(dataState);
 
     }, [ctyId]);
+
+    const [address, setAddress] = useState("");
+    const handleChange = (value) => {
+        setAddress(value);
+        setFormVar({ ...formVar, "city": value });
+        // result coordinates
+        geocodeByAddress(value)
+            .then(results => getLatLng(results[0]))
+            .then(latLng => {
+                setFormVar({
+                    ...formVar, "city": value, "latLng": {
+                        "type": "Point",
+                        "coordinates": [latLng.lat, latLng.lng]
+                    }
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    const handleSelect = (value) => {
+        setAddress(value);
+        // Get Coordinates 
+        geocodeByAddress(value)
+            .then(results => getLatLng(results[0]))
+            .then(latLng => {
+                setFormVar({
+                    ...formVar, "city": value, "latLng": {
+                        "type": "Point",
+                        "coordinates": [latLng.lat, latLng.lng]
+                    }
+                });
+                console.log(latLng);
+                console.log("formVar", formVar);
+
+            })
+            .catch(error => console.error('Error', error));
+    }
 
 
     // On validation
@@ -128,10 +170,10 @@ const Signup = () => {
     const handleSignupStep1 = (e) => {
         e.preventDefault();
         setErrors(validationStep1(formVar));
-        SignUpApi(formVar);
-        if (emailError === "") {
-            setIsSubmit(true);
-        }
+        // SignUpApi(formVar);
+        // if (emailError === "") {
+        setIsSubmit(true);
+        // }
     }
     useEffect(() => {
         if (Object.keys(errors).length === 0 && isSubmit && emailError == "") {
@@ -140,6 +182,7 @@ const Signup = () => {
                 setIsSubmit(false);
             } else {
                 SignUpApi(formVar);
+                console.log("formVar", formVar)
             }
         }
     }, [errors]);
@@ -160,26 +203,19 @@ const Signup = () => {
     }
 
     // Handle Signin  API
+
     const SignUpApi = (formResp) => {
-        axios.post(`${api}/sign-up`, {
-            method: "POST",
+        fetch(`${api}/sign-up`, {
+            method: 'POST',
             headers: {
+                // "x-access-token": JSON.parse(localStorage.getItem("user-info")).token,
+                Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            email: formResp.email,
-            password: formResp.password,
-            dob: formResp.dob,
-            display_name: formResp.display_name,
-            gender: "Male",
-            interested_in: "Female",
-            country: formResp.country,
-            state: formResp.state,
-            city: formResp.city,
-            zipcode: formResp.zipcode
+            body: JSON.stringify(formResp),
         })
+            .then(response => response.text())
             .then(result => {
-                console.log("LoginApi result::", result);
-                // localStorage.setItem("user-info", JSON.stringify(result.data));
                 setEmailError("");
                 setTimeout(() => {
                     navigate("/login");
@@ -187,14 +223,55 @@ const Signup = () => {
             })
             .catch(error => {
                 console.log("LoginApi error::", error);
-                setEmailError(error.response.data.error[0].message)
-                if (error.response.data.error[0].message == "E-mail already in use") {
-                    setEmailError("E-mail already in use");
-                } else {
-                    setEmailError("");
-                }
-            })
+                // setEmailError(error.response.data.error[0].message)
+                // if (error.response.data.error[0].message == "E-mail already in use") {
+                //     setEmailError("E-mail already in use");
+                // } else {
+                //     setEmailError("");
+                // }
+
+            });
     }
+
+    // -----------------------------------------------
+    // const SignUpApi = (formResp) => {
+    //     axios.post(`${api}/sign-up`, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         // data: formResp
+    //         email: formResp.email,
+    //         password: formResp.password,
+    //         dob: formResp.dob,
+    //         display_name: formResp.display_name,
+    //         gender: "Male",
+    //         interested_in: "Female",
+    //         country: formResp.country,
+    //         state: formResp.state,
+    //         city: formResp.city,
+    //         zipcode: formResp.zipcode,
+    //         latLng: formResp.latLng
+
+    //     })
+    //         .then(result => {
+    //             console.log("LoginApi result::", result);
+    //             // localStorage.setItem("user-info", JSON.stringify(result.data));
+    //             setEmailError("");
+    //             setTimeout(() => {
+    //                 navigate("/login");
+    //             }, 2000);
+    //         })
+    //         .catch(error => {
+    //             console.log("LoginApi error::", error);
+    //             setEmailError(error.response.data.error[0].message)
+    //             if (error.response.data.error[0].message == "E-mail already in use") {
+    //                 setEmailError("E-mail already in use");
+    //             } else {
+    //                 setEmailError("");
+    //             }
+    //         })
+    // }
     return (
         <>
             <div className="auth-body">
@@ -376,6 +453,7 @@ const Signup = () => {
                                                     name="gender"
                                                     id={`reverse-${type}-gender-1`}
                                                     label="Male"
+                                                    value="Male"
 
                                                 />
                                                 <Form.Check
@@ -385,6 +463,7 @@ const Signup = () => {
                                                     type={type}
                                                     id={`reverse-${type}-gender-2`}
                                                     label="Female"
+                                                    value="Female"
                                                 />
                                                 <Form.Check
                                                     inline
@@ -393,6 +472,7 @@ const Signup = () => {
                                                     type={type}
                                                     id={`reverse-${type}-gender-3`}
                                                     label="Non-Binary"
+                                                    value="Non-Binary"
                                                 />
                                             </div>
                                         ))}
@@ -409,6 +489,7 @@ const Signup = () => {
                                                     name="interested_in"
                                                     id={`reverse-${type}-interested_in-1`}
                                                     label="Male"
+                                                    value="Male"
                                                 />
                                                 <Form.Check
                                                     inline
@@ -417,6 +498,7 @@ const Signup = () => {
                                                     type={type}
                                                     id={`reverse-${type}-interested_in-2`}
                                                     label="Female"
+                                                    value="Female"
                                                 />
                                                 <Form.Check
                                                     inline
@@ -425,6 +507,7 @@ const Signup = () => {
                                                     type={type}
                                                     id={`reverse-${type}-interested_in-3`}
                                                     label="Non-Binary"
+                                                    value="Non-Binary"
                                                 />
                                             </div>
                                         ))}
@@ -467,7 +550,37 @@ const Signup = () => {
                                         <Col md={6}>
                                             <Form.Group className="mb-3" controlId="city">
                                                 <Form.Label>City*</Form.Label>
-                                                <Form.Control type="text" name="city" placeholder="Your city" value={formVar.city} onChange={(e) => handleInputChange(e)} />
+                                                <PlacesAutocomplete
+                                                    value={formVar.city}
+                                                    onChange={handleChange}
+                                                    onSelect={handleSelect}
+                                                >
+                                                    {({
+                                                        getInputProps,
+                                                        suggestions,
+                                                        getSuggestionItemProps,
+                                                        loading,
+                                                    }) => (
+                                                        <>
+                                                            <input
+                                                                {...getInputProps({
+                                                                    placeholder: "Your city",
+                                                                })} className="form-control"
+                                                            />
+                                                            <div className="location-dropOption">
+                                                                {loading && <div>Loading...</div>}
+                                                                {suggestions.map((suggestion) => {
+                                                                    return (
+                                                                        <p {...getSuggestionItemProps(suggestion)}>
+                                                                            {suggestion.description}
+                                                                        </p>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </>
+                                                    )}
+                                                </PlacesAutocomplete>
+                                                {/* <Form.Control type="text" name="city" placeholder="Your city" value={formVar.city} onChange={(e) => handleInputChange(e)} /> */}
                                                 {errors?.city && <Form.Text className="error">{errors?.city}</Form.Text>}
                                             </Form.Group>
                                         </Col>

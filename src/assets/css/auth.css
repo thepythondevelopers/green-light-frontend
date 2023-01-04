@@ -239,3 +239,11 @@
     top: 50%;
     right: 20px;
 }
+
+.auth-body .formStep div .location-dropOption {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+}
