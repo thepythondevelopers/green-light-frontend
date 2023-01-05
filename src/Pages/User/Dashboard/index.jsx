@@ -9,7 +9,7 @@ import "../../../assets/css/dashboard.css";
 import Slider from "react-slick";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserAPI, yellowAPI } from "../../../Redux/Action/Action";
+import { getUserAPI } from "../../../Redux/Action/Action";
 const api = "http://44.211.151.102/api";
 
 function SampleNextArrow(props) {
@@ -39,7 +39,6 @@ const Dashboard = () => {
 
     //=====================================================================================================//
     const user = useSelector((state) => state.userReducer.userInfo);
-    const { yellowUserInfo } = useSelector((state) => state.yellowLightReducer);
     const interest = user.interested_in;
     const dispatch = useDispatch();
     const settings = {
@@ -66,17 +65,9 @@ const Dashboard = () => {
         religion: "",
         not_include: []
     })
-    // useEffect(() => {
-    //     dispatch(getUserAPI(getToken));
-    // }, [getToken]);
     useEffect(() => {
         dispatch(getUserAPI(getToken));
-        dispatch(yellowAPI(getToken));
     }, [getToken]);
-    useEffect(() => {
-        console.log('user', user)
-        console.log("yellowUser:::::::::::", yellowUserInfo);
-    }, [yellowUserInfo]);
 
     // Get MatchingAlgo
     const getMatchAlgo = (interest) => {

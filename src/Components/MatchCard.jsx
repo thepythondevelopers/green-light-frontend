@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Row, Col, Alert, Button } from "react-bootstrap";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserAPI } from "../Redux/Action/Action";
 // import icons
 import { MdHeight } from "react-icons/md";
 import { BiBriefcaseAlt, BiQuestionMark } from "react-icons/bi";
@@ -18,6 +20,18 @@ import { useEffect } from "react";
 const api = " http://44.211.151.102/api";
 
 const MatchCard = (props) => {
+
+    // token
+    const getlocalStorage = JSON.parse(localStorage.getItem("user-info"));
+    const getToken = getlocalStorage.token;
+
+    //=====================================================================================================//
+
+    const user = useSelector((state) => state.userReducer.userInfo);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getUserAPI(getToken));
+    }, [getToken]);
     const [statusMessage, setStatusMessage] = useState("")
     const settings = {
         arrow: false,
@@ -70,6 +84,7 @@ const MatchCard = (props) => {
         })
             .then(response => response.json())
             .then(result => {
+                dispatch(getUserAPI(getToken));
                 console.log("result", result);
                 setStatusMessage(dataMessage);
                 setTimeout(() => {
