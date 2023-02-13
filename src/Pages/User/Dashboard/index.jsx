@@ -10,7 +10,7 @@ import Slider from "react-slick";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserAPI } from "../../../Redux/Action/Action";
-const api = "http://44.211.151.102/api";
+const api = "https://greenlightapi.pamsar.com/api";
 
 function SampleNextArrow(props) {
     const { className, onClick } = props;

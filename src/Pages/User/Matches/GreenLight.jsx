@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 import AdvertisementPT from "../../../Components/AdvertisementPT";
 import { Link } from "react-router-dom";
-const api = " http://44.211.151.102/api";
+const api = " https://greenlightapi.pamsar.com/api";
 
 function SampleNextArrow(props) {
     const { className, onClick } = props;

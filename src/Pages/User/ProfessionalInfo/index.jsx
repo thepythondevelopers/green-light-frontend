@@ -9,7 +9,7 @@ import "../../../assets/css/info-card.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserAPI } from "../../../Redux/Action/Action";
 import axios from "axios";
-const api = " http://44.211.151.102/api";
+const api = " https://greenlightapi.pamsar.com/api";
 
 const ProfessionalInfo = () => {
     // Token 

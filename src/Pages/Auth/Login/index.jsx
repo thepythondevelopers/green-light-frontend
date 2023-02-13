@@ -5,7 +5,7 @@ import { Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import axios from "axios";
 import { IoIosArrowBack } from "react-icons/io"
 
-const api = " http://44.211.151.102/api";
+const api = " https://greenlightapi.pamsar.com/api";
 
 const Login = () => {
     const navigate = useNavigate();

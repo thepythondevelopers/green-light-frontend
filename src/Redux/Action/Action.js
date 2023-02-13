@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ActionTypes } from "../Constants/ActionTypes";
-const api = " http://44.211.151.102/api";
+const api = " https://greenlightapi.pamsar.com/api";
 
 // Get User Info API
 export const getUserAPI = (token) => {

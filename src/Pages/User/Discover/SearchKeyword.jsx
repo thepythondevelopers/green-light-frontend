@@ -6,7 +6,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { useState } from "react";
 import Slider from "react-slick";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
-const api = "http://44.211.151.102/api";
+const api = "https://greenlightapi.pamsar.com/api";
 
 function SampleNextArrow(props) {
     const { className, onClick } = props;

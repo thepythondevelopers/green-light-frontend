@@ -3,7 +3,7 @@ import '../../../assets/css/auth.css';
 import { Link } from "react-router-dom";
 import { Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import axios from "axios";
-const api = " http://44.211.151.102/api";
+const api = " https://greenlightapi.pamsar.com/api";
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState("");

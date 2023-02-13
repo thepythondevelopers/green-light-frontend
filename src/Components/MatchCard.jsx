@@ -17,7 +17,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 import { TiLocationArrow } from "react-icons/ti";
 import { useEffect } from "react";
-const api = " http://44.211.151.102/api";
+const api = " https://greenlightapi.pamsar.com/api";
 
 const MatchCard = (props) => {
 

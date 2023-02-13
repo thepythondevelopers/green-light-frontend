@@ -9,7 +9,7 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-a
 import { DayPicker, MonthPicker, YearPicker } from "react-dropdown-date";
 import axios from "axios";
 
-const api = " http://44.211.151.102/api";
+const api = " https://greenlightapi.pamsar.com/api";
 
 const Signup = () => {
     const navigate = useNavigate();
