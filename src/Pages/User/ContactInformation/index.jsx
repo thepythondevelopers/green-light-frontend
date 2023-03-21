@@ -40,6 +40,7 @@ const ContactInformation = () => {
     // Country and State
     const [ctyId, setCtyId] = useState(1);
     const [stateDrop, setStateDrop] = useState();
+    const [errors, setErrors] = useState({});
 
     const handleCountryChange = (e) => {
         const getCountryID = e.target.value;
@@ -56,6 +57,20 @@ const ContactInformation = () => {
         setStateDrop(dataState);
 
     }, [ctyId]);
+
+    const checkValidation = (values) => {
+        const error = {};
+        console.log(values);
+        if (!values.zipcode) {
+            error.zipcode = " Please Enter Zipcode"
+        }
+        if( !values.country){
+            error.country = "Please Select your Country"
+        }        
+
+ 
+        return error;
+    }
 
 
     const handleProfessionalInfo = (e) => {
@@ -123,8 +138,11 @@ const ContactInformation = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        professionalInfoAPI(locationInfo)
-        console.log("locationInfo", locationInfo);
+        setErrors(checkValidation(locationInfo));
+        if(Object.keys(errors).length === 0){
+            professionalInfoAPI(locationInfo)
+            console.log("locationInfo", locationInfo);
+        }
     }
 
     useEffect(() => {
@@ -238,8 +256,8 @@ const ContactInformation = () => {
                                             <Col>
                                                 <Form.Group controlId="country">
                                                     <Form.Label>Country:</Form.Label>
-                                                    <Form.Select defaultValue="Country/Region" name="country" value={locationInfo.country} onChange={(e) => handleCountryChange(e)}>
-                                                        <option>Country/Region</option>
+                                                    <Form.Select defaultValue="Country/Region" name="country" value={locationInfo?.country} onChange={(e) => handleCountryChange(e)}>
+                                                        <option value="">Country/Region</option>
                                                         {CountryForm?.map((curelem, index) => {
                                                             return (
                                                                 <option key={curelem.country_id} value={curelem.country_id}>{curelem.country_name}</option>
@@ -248,6 +266,7 @@ const ContactInformation = () => {
                                                         }
                                                     </Form.Select>
                                                 </Form.Group>
+                                                {errors?.country && <Form.Text className="error">{errors?.country}</Form.Text>}
                                             </Col>
                                             <Col>
                                                 <Form.Group controlId="state">
@@ -279,6 +298,7 @@ const ContactInformation = () => {
                                                     <Form.Label>Zipcode:</Form.Label>
                                                     <Form.Control type="text" name="zipcode" placeholder="Your ZIP code" value={locationInfo.zipcode} onChange={(e) => handleProfessionalInfo(e)} />
                                                 </Form.Group>
+                                                {errors?.zipcode && <Form.Text className="error">{errors?.zipcode}</Form.Text>}
                                             </Col>
                                         </Row>
                                     </div>

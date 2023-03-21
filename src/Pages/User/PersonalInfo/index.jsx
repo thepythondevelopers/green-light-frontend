@@ -30,26 +30,88 @@ const PersonalInfo = () => {
         first_name: "",
         last_name: "",
         dob: "",
-        interested_in: "",
+        gender:'',
+        interested_in: [] ,
         height: "",
         eyes: "",
+        eyes_others : '',
         hair_color: "",
+        hair_others:'',
         interests: []
     });
+    const [errors, setErrors] = useState({});
+
     const handleProfileInfoChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
         setPersonalInfo({ ...personalInfo, [name]: value });
     }
+
+    // Get the previous value (was passed into hook on last render)
+
+   const handlemultipleCheckboxes = (e) =>{
+    // console.log()
+    if(e.target.checked){
+        const name = e.target.name;
+        const value = e.target.value;
+        let arr =personalInfo?.interested_in;
+        arr.push(value);
+        console.log(arr)
+        setPersonalInfo({ ...personalInfo, [name]: arr });
+    }else{
+        const name = e.target.name;
+        const value = e.target.value;
+        let arr =personalInfo?.interested_in;
+        const index = arr.indexOf(value);
+        if (index > -1) { // only splice arr when item is found
+        arr.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        console.log(arr)
+        setPersonalInfo({ ...personalInfo, [name]: arr });
+    }
+    
+
+    
+   }
     const handleProfileInfoInterests = (e) => {
         const data = e.target.value;
         setList({ ...list, [e.target.name]: e.target.value });
         setPersonalInfo({ ...personalInfo, "interests": list });
     }
 
+    const checkValidation = (values) => {
+        const error = {};
+        console.log(values);
+        if (!values.gender) {
+            error.gender = " Please select your gender"
+        }
+        let checklenght = values.interested_in;
+        if( checklenght.length === 0){
+            error.interested_in = " Please select your intrests"
+        }        
+        // if (!values.password) {
+        //     error.password = " Please fill password"
+        // }
+        // if (!values.cpassword) {
+        //     error.cpassword = " Please fill confirm password"
+        // } else if (values.password !== values.cpassword) {
+        //     error.cpassword = "Password not matched"
+        // }
+        // if (values.termsConditions === false) {
+        //     error.termsConditions = " Please Accept Terms and Conditions"
+        // }
+        return error;
+    }
+
     const submitProfleInfo = (e) => {
         e.preventDefault();
+        setErrors(checkValidation(personalInfo));
+        // console.log(errors)
+        console.log(Object.keys(errors).length);
+        if (Object.keys(errors).length === 0) {
+            console.log("done");
         profileInfoAPI(personalInfo)
+        }
     }
 
     useEffect(() => {
@@ -89,6 +151,15 @@ const PersonalInfo = () => {
             });
     }
 
+    const checkIntrestedIn = (value) =>{
+      let yesss = personalInfo?.interested_in
+    //   console.log()
+    if(yesss?.includes(value)){
+      return true;
+    }else{
+        return false;
+    }
+    }
     return (
         <>
             <Header />
@@ -153,23 +224,67 @@ const PersonalInfo = () => {
                                                 <Form.Group controlId="gender">
                                                     <Form.Label>Gender:</Form.Label>
                                                     <Form.Select defaultValue="...choose" name="gender" value={personalInfo?.gender} onChange={(e) => (handleProfileInfoChange(e))}>
-                                                        <option>Choose...</option>
+                                                        <option value="">Choose...</option>
                                                         <option value="Male">Male</option>
                                                         <option value="Female">Female</option>
                                                         <option value="Non-Binary">Non-Binary</option>
                                                     </Form.Select>
                                                 </Form.Group>
+                                                {errors?.gender && <Form.Text className="error">{errors?.gender}</Form.Text>}
                                             </Col>
                                             <Col>
-                                                <Form.Group controlId="interested_in">
-                                                    <Form.Label>Interested In:</Form.Label>
-                                                    <Form.Select defaultValue="Choose..." name="interested_in" value={personalInfo?.interested_in} onChange={(e) => (handleProfileInfoChange(e))}>
-                                                        <option>Choose...</option>
+                                               
+                                                   { /* <Form.Label>Interested In:</Form.Label>
+                                                     <Form.Select defaultValue="Choose..." name="interested_in" value={personalInfo?.interested_in} onChange={(e) => (handleProfileInfoChange(e))}>
+                                                        <option value="">Choose...</option>
                                                         <option value="Male">Male</option>
                                                         <option value="Female">Female</option>
                                                         <option value="Non-Binary">Non-Binary</option>
-                                                    </Form.Select>
-                                                </Form.Group>
+                                                    </Form.Select> */}
+                                                    <Form.Group className="mb-3 full-w-field" controlId="interested_in" name=""   >
+                                                    <Form.Label>Interested In*</Form.Label>
+                                                    {['checkbox'].map((type) => (
+                                                        <div key={`reverse-${type}`} className="mb-3 field-flex">
+                                                            <Form.Check
+                                                                inline
+                                                                reverse
+                                                                type={type}
+                                                                name="interested_in"
+                                                                id={`reverse-${type}-interested_in-1`}
+                                                                label="Male"
+                                                                value="Male"
+                                                                checked={checkIntrestedIn("Male")}
+                                                                onChange={(e) => { handlemultipleCheckboxes(e) }}
+                                                            />
+                                                            <Form.Check
+                                                                inline
+                                                                reverse
+                                                                name="interested_in"
+                                                                type={type}
+                                                                id={`reverse-${type}-interested_in-2`}
+                                                                label="Female"
+                                                                value="Female"
+                                                                checked={checkIntrestedIn("Female")}
+                                                                onChange={(e) => { handlemultipleCheckboxes(e) }}
+                                                            />
+                                                            <Form.Check
+                                                                inline
+                                                                reverse
+                                                                name="interested_in"
+                                                                type={type}
+                                                                id={`reverse-${type}-interested_in-3`}
+                                                                label="Non-Binary"
+                                                                value="Non-Binary"
+                                                                checked={checkIntrestedIn("Non-Binary")}
+                                                                onChange={(e) => { handlemultipleCheckboxes(e) }}
+                                                            />
+                                                        </div>
+                                                    ))}
+                                        
+                                    </Form.Group>      
+                                    {errors?.interested_in && <Form.Text className="error">{errors?.interested_in}</Form.Text>}              
+                                           
+
                                             </Col>
                                         </Row>
                                     </div>
@@ -180,7 +295,7 @@ const PersonalInfo = () => {
                                                     <Form.Label>Height:</Form.Label>
                                                     <Form.Select defaultValue="Choose..." name="height" value={personalInfo?.height} onChange={(e) => (handleProfileInfoChange(e))}>
                                                         <option>Choose...</option>
-                                                        <option value="91.44">3'0"</option>
+                                                      { /* <option value="91.44">3'0"</option>
                                                         <option value="94.488">3'1"</option>
                                                         <option value="97.536">3'2"</option>
                                                         <option value="100.584">3'3"</option>
@@ -196,7 +311,8 @@ const PersonalInfo = () => {
                                                         <option value="131.064">4'3"</option>
                                                         <option value="134.112">4'4"</option>
                                                         <option value="137.16">4'5"</option>
-                                                        <option value="140.208">4'6"</option>
+                                                        <option value="140.208">4'6"</option> 
+                                                            */}
                                                         <option value="143.256">4'7"</option>
                                                         <option value="146.304">4'8"</option>
                                                         <option value="149.352">4'9"</option>
@@ -221,7 +337,7 @@ const PersonalInfo = () => {
                                                         <option value="207.264">6'8"</option>
                                                         <option value="210.312">6'9"</option>
                                                         <option value="213.36">7'0"</option>
-                                                        <option value="216.408">7'1"</option>
+                                                       {/* <option value="216.408">7'1"</option>
                                                         <option value="219.456">7'2"</option>
                                                         <option value="222.504">7'3"</option>
                                                         <option value="225.552">7'4"</option>
@@ -240,6 +356,7 @@ const PersonalInfo = () => {
                                                         <option value="265.176">8'7"</option>
                                                         <option value="268.224">8'8"</option>
                                                         <option value="271.272">8'9"</option>
+                                                         */}
                                                     </Form.Select>
                                                 </Form.Group>
                                             </Col>
@@ -252,15 +369,16 @@ const PersonalInfo = () => {
                                                     <Form.Label>Eye Color:</Form.Label>
                                                     <Form.Select defaultValue="Choose..." name="eyes" value={personalInfo?.eyes} onChange={(e) => (handleProfileInfoChange(e))}>
                                                         <option>Choose...</option>
-                                                        <option value="amber">Amber</option>
-                                                        <option value="blue">Blue</option>
+                                                        <option value="black">Black</option>                          
                                                         <option value="brown">Brown</option>
-                                                        <option value="gray">Gray</option>
-                                                        <option value="green">Green</option>
                                                         <option value="hazel">Hazel</option>
-                                                        <option value="red">Red</option>
+                                                        <option value="green">Green</option>
+                                                        <option value="blue">Blue</option>
+                                                        <option value="gray">Gray</option>
+                                                        <option value="other">Other</option>
                                                     </Form.Select>
                                                 </Form.Group>
+                                                <Form.Control style={ personalInfo?.eyes === "other" ? {display:"block"} :{ display : "none"}} type="text" placeholder="Eye Colour" name="eyes_others" value={personalInfo?.eyes_others} onChange={(e) => (handleProfileInfoChange(e))} />
                                             </Col>
                                         </Row>
                                     </div>
@@ -273,12 +391,14 @@ const PersonalInfo = () => {
                                                         <option>Choose...</option>
                                                         <option value="black">Black</option>
                                                         <option value="brown">Brown </option>
-                                                        <option value="auburn ">Auburn</option>
-                                                        <option value="red ">Red </option>
                                                         <option value="blond ">Blond </option>
-                                                        <option value="gray-and-white">Gray and white</option>
+                                                        <option value="red ">Red </option>
+                                                        <option value="gray ">Gray</option>                        
+                                                        <option value="white">White</option>
+                                                        <option value="other">Other</option>
                                                     </Form.Select>
                                                 </Form.Group>
+                                                <Form.Control style={ personalInfo?.hair_color === "other" ? {display:"block"} :{ display : "none"}} type="text" placeholder="Hair Colour" name="hair_others" value={personalInfo?.hair_others} onChange={(e) => (handleProfileInfoChange(e))} />
                                             </Col>
                                         </Row>
                                     </div>

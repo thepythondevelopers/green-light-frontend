@@ -3,6 +3,7 @@ import '../../../assets/css/auth.css';
 import { Link } from "react-router-dom";
 import { Row, Col } from 'react-bootstrap';
 
+
 const Register = () => {
     return (
         <>

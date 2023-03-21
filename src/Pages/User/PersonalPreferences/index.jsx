@@ -32,7 +32,12 @@ const PersonalPreferences = () => {
         want_kids: "",
         astrology_sign: "",
         ethinicity: "",
-        looking_for: ""
+        ethinicity_others:'',
+        looking_for: "",
+        lookingFor_others: '',
+        religion:'',
+        politics:'',
+        politics_others:''
     });
 
     console.log("personalPreference", personalPreference);
@@ -368,14 +373,21 @@ const PersonalPreferences = () => {
                                                     <Form.Label>Ethnicity:</Form.Label>
                                                     <Form.Select defaultValue="Choose..." name="ethinicity" value={personalPreference.ethinicity} onChange={(e) => { handleInputChange(e) }}>
                                                         <option>Choose...</option>
-                                                        <option value="indigenous">Indigenous</option>
-                                                        <option value="pacific-islander">Pacific Islander</option>
-                                                        <option value="southeast-asian">Southeast Asian</option>
-                                                        <option value="Other">Other</option>
-                                                        <option value="indigenous">Indigenous</option>
+                                                        <option value="black">Black</option>
+                                                        <option value="east-asian">East Asian</option>
+                                                        <option value="hispanic">Hispanic</option>
+                                                        <option value="middle-eastern">Middle Eastern</option>
+                                                        <option value="native-american">Native American</option>
+                                                        <option value="south-asian">South Asian</option>
+                                                        <option value="White">White</option>
+                                                        <option value="multiracial">Multiracial</option>
+                                                        <option value="other">Other</option>
+                                                        
                                                     </Form.Select>
                                                 </Form.Group>
+                                               
                                             </Col>
+                                            <Form.Control style={ personalPreference?.ethinicity === "other" ? {display:"block"} :{ display : "none"}} type="text" placeholder="Ethinicity" name="ethinicity_others" value={personalPreference?.ethinicity_others} onChange={(e) => (handleInputChange(e))} />
                                         </Row>
                                     </div>
                                     <div className="form-box">
@@ -438,8 +450,9 @@ const PersonalPreferences = () => {
                                                             />
                                                         </div>
                                                     ))}
-                                                </Form.Group>
+                                                </Form.Group>                                             
                                             </Col>
+                                            <Form.Control style={ personalPreference?.looking_for === "Other" ? {display:"block"} :{ display : "none"}} type="text" placeholder="I'm Looking for" name="lookingFor_others" value={personalPreference?.lookingFor_others} onChange={(e) => (handleInputChange(e))} />
                                         </Row>
                                     </div>
                                     <div className="form-box">
@@ -448,10 +461,11 @@ const PersonalPreferences = () => {
                                                 <img src="/assets/images/id-card.svg" alt="id-card" />
                                                 <Form.Group controlId="religion">
                                                     <Form.Label>Religion:</Form.Label>
-                                                    <Form.Select defaultValue="Type anything..." name="religion" value={personalPreference.religion} onChange={(e) => { handleInputChange(e) }}>
+                                                   { /* <Form.Select defaultValue="Type anything..." name="religion" value={personalPreference.religion} onChange={(e) => { handleInputChange(e) }}>
                                                         <option>Type anything...</option>
                                                         <option value="Hazel">Hazel</option>
-                                                    </Form.Select>
+                                                    </Form.Select> */} 
+                                                    <Form.Control type="text" placeholder="Religion" name="religion" value={personalPreference?.religion} onChange={(e) => (handleInputChange(e))} />
                                                 </Form.Group>
                                             </Col>
                                         </Row>
@@ -464,10 +478,14 @@ const PersonalPreferences = () => {
                                                     <Form.Label>Politics:</Form.Label>
                                                     <Form.Select defaultValue="Choose..." name="politics" value={personalPreference.politics} onChange={(e) => { handleInputChange(e) }}>
                                                         <option>Choose...</option>
+                                                        <option value="liberal">Liberal</option>
                                                         <option value="Moderate">Moderate</option>
+                                                        <option value="conservative">Conservative</option>
+                                                        <option value="other">Other</option>
                                                     </Form.Select>
                                                 </Form.Group>
                                             </Col>
+                                            <Form.Control style={ personalPreference?.politics === "other" ? {display:"block"} :{ display : "none"}} type="text" placeholder="Politics" name="politics_others" value={personalPreference?.politics_others} onChange={(e) => (handleInputChange(e))} />
                                         </Row>
                                     </div>
                                     <div className="form-button-group d-flex justify-content-between">

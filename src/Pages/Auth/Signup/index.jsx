@@ -9,6 +9,10 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng, } from 'react-places-a
 import { DayPicker, MonthPicker, YearPicker } from "react-dropdown-date";
 import axios from "axios";
 
+import { GoogleOAuthProvider , GoogleLogin } from '@react-oauth/google';
+import FacebookLogin from 'react-facebook-login';
+import jwtDecode from 'jwt-decode';
+
 const api = " https://greenlightapi.pamsar.com/api";
 
 const Signup = () => {
@@ -33,7 +37,8 @@ const Signup = () => {
         latLng: {
             type: "Point",
             coordinates: [0, 0]
-        }
+        },
+        termsConditions: false
     });
     const [errors, setErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
@@ -105,28 +110,59 @@ const Signup = () => {
     // On validation
     const validationStep1 = (values) => {
         const error = {};
+        console.log(values);
         if (!values.email) {
             error.email = " Please fill email adddress"
         }
+        if( values.email && !values.email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+            error.email = " Please fill Valid email address"
+        }        
         if (!values.password) {
             error.password = " Please fill password"
         }
+        if(values.password && !values.password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+)){
+    error.password = "Password must be 8 Characters long and contain atleast 1 number"
+}
         if (!values.cpassword) {
             error.cpassword = " Please fill confirm password"
         } else if (values.password !== values.cpassword) {
             error.cpassword = "Password not matched"
         }
+        if (values.termsConditions === false) {
+            error.termsConditions = " Please Accept Terms and Conditions"
+        }
         return error;
     }
     const validationStep2 = (values) => {
         const error = {};
-        if (!values.dob) {
-            error.dob = " Please fill field"
+        // console.log("ghanta"+ values);
+        // console.log(values);
+        // return false
+        if (!values.day) {
+            error.day = " Please Select a day"
         }
+        if (!values.month) {
+            error.month = " Please Select a month"
+        }
+        if (!values.year) {
+            error.year = " Please Select a year"
+        }      
+
+        let years_age = calculate_age(''+("0" + values.month).slice(-2)+'/'+("0" + values.day).slice(-2)+'/'+values.year+'');
+        if(years_age < 18){
+            error.years_age = "You age is under 18 years."
+        }
+        else{
+            setFormVar({...formVar, "dob": [values.year, values.month, values.day].join("-") });
+        }     
+    
         return error;
     }
     const validationStep3 = (values) => {
         const error = {};
+
+        console.log(values);
         if (!values.display_name) {
             error.display_name = " Please fill display name"
         }
@@ -139,12 +175,12 @@ const Signup = () => {
         if (!values.country) {
             error.country = " Please fill country"
         }
-        if (!values.state) {
-            error.state = " Please fill state"
-        }
-        if (!values.city) {
-            error.city = " Please fill city"
-        }
+        // if (!values.state) {
+        //     error.state = " Please fill state"
+        // }
+        // if (!values.city) {
+        //     error.city = " Please fill city"
+        // }
         if (!values.zipcode) {
             error.zipcode = " Please fill zipcode"
         }
@@ -164,6 +200,10 @@ const Signup = () => {
     const handleDateChange = (e) => {
         setFormVar({ ...formVar, "dob": [formVar.year, parseInt(formVar.month) + 1, formVar.day].join("-") });
         console.log("formVar", formVar);
+    }
+
+    const handletermsCheckbox = (e) =>{
+        setFormVar({...formVar, "termsConditions" : e.target.checked})
     }
 
     // Step1
@@ -202,24 +242,141 @@ const Signup = () => {
 
     }
 
+    function calculate_age(dateString) {
+        var now = new Date();
+        var today = new Date(now.getYear(),now.getMonth(),now.getDate());
+      
+        var yearNow = now.getYear();
+        var monthNow = now.getMonth();
+        var dateNow = now.getDate();
+      
+        var dob = new Date(dateString.substring(6,10),
+                           dateString.substring(0,2)-1,                   
+                           dateString.substring(3,5)                  
+                           );
+      
+        var yearDob = dob.getYear();
+        var monthDob = dob.getMonth();
+        var dateDob = dob.getDate();
+        var age = {};
+        var ageString = "";
+        var yearString = "";
+        var monthString = "";
+        var dayString = "";
+      
+      
+       var yearAge = yearNow - yearDob;
+      
+        if (monthNow >= monthDob)
+          var monthAge = monthNow - monthDob;
+        else {
+          yearAge--;
+          var monthAge = 12 + monthNow -monthDob;
+        }
+      
+        if (dateNow >= dateDob)
+          var dateAge = dateNow - dateDob;
+        else {
+          monthAge--;
+          var dateAge = 31 + dateNow - dateDob;
+      
+          if (monthAge < 0) {
+            monthAge = 11;
+            yearAge--;
+          }
+        }
+      
+        age = {
+            years: yearAge,
+            months: monthAge,
+            days: dateAge
+            };
+      
+        if ( age.years > 1 ) yearString = " years";
+        else yearString = " year";
+        if ( age.months> 1 ) monthString = " months";
+        else monthString = " month";
+        if ( age.days > 1 ) dayString = " days";
+        else dayString = " day";
+      
+      
+        if ( (age.years > 0) && (age.months > 0) && (age.days > 0) )
+          ageString = age.years + yearString + ", " + age.months + monthString + ", and " + age.days + dayString + " old.";
+        else if ( (age.years == 0) && (age.months == 0) && (age.days > 0) )
+          ageString = "Only " + age.days + dayString + " old!";
+        else if ( (age.years > 0) && (age.months == 0) && (age.days == 0) )
+          ageString = age.years + yearString + " old. Happy Birthday!!";
+        else if ( (age.years > 0) && (age.months > 0) && (age.days == 0) )
+          ageString = age.years + yearString + " and " + age.months + monthString + " old.";
+        else if ( (age.years == 0) && (age.months > 0) && (age.days > 0) )
+          ageString = age.months + monthString + " and " + age.days + dayString + " old.";
+        else if ( (age.years > 0) && (age.months == 0) && (age.days > 0) )
+          ageString = age.years + yearString + " and " + age.days + dayString + " old.";
+        else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
+          ageString = age.months + monthString + " old.";
+        else ageString = "Oops! Could not calculate age!";
+      
+        return age.years;
+      }
+
+   
+
     // Handle Signin  API
 
-    const SignUpApi = (formResp) => {
-        fetch(`${api}/sign-up`, {
+    const SignupWithGoogle = (formVar) => {
+        fetch(`${api}/social-signup`, {
             method: 'POST',
             headers: {
                 // "x-access-token": JSON.parse(localStorage.getItem("user-info")).token,
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(formResp),
+            body: JSON.stringify(formVar),
         })
             .then(response => response.text())
             .then(result => {
                 setEmailError("");
                 setTimeout(() => {
-                    navigate("/login");
+                    // navigate("/login");
                 }, 2000);
+            })
+            .catch(error => {
+                console.log("LoginApi error::", error);
+                // setEmailError(error.response.data.error[0].message)
+                // if (error.response.data.error[0].message == "E-mail already in use") {
+                //     setEmailError("E-mail already in use");
+                // } else {
+                //     setEmailError("");
+                // }
+
+            });
+    }
+
+    const SignUpApi = (formResp) => {
+        fetch(`${api}/sign-up`, {
+            method: 'POST',
+            headers: {
+                // "x-access-token": JSON.parse(localStorage.getItem("user-info")).token,
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formResp),
+        }).then((result) => {
+                return result;
+          }).then(result => {
+                setEmailError("");
+                console.log("dd");
+                if(result?.status == 400){
+                    const error = {};
+                    error.test = "Display Name is Already used"
+                    console.log(error+"dddddddddddd")
+                    setErrors(error);
+                }
+                else{
+                    setTimeout(() => {
+                        // navigate("/login");
+                    }, 2000);
+                }
             })
             .catch(error => {
                 console.log("LoginApi error::", error);
@@ -353,13 +510,32 @@ const Signup = () => {
                                         {errors?.cpassword && <Form.Text className="error">{errors?.cpassword}</Form.Text>}
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                        <Form.Check type="checkbox" label="I agree to terms & conditions" />
+                                        <Form.Check type="checkbox"  name="termsConditions" label="I agree to terms & conditions" onChange={(e)=>handletermsCheckbox(e)} />
                                     </Form.Group>
                                     {emailError && <Form.Text className="error">{emailError}</Form.Text>}
+                                    {errors?.termsConditions && <Form.Text className="error">{errors?.termsConditions}</Form.Text>}
+                                    
                                     <Button className="cmn_btn cmn_green" variant="primary" type="submit" onClick={(e) => handleSignupStep1(e)}>
                                         Sign Up and Continue
                                     </Button>
                                     <Button className="cmn_btn"> <img src="assets/images/google.svg" alt="Google" /> Sign Up with Gmail</Button>
+                                    <GoogleLogin
+                                    onSuccess={credentialResponse => {
+                                        if (credentialResponse.credential != null) {
+                                            const USER_CREDENTIAL = jwtDecode(credentialResponse.credential);
+                                            console.log(USER_CREDENTIAL);
+                                        setFormVar({ ...formVar, "email": USER_CREDENTIAL.email ,  ...formVar, "singup_type": credentialResponse.credential });
+                                     
+                                        console.log("test"+ formVar.email);
+                                        console.log("test"+ credentialResponse.credential);
+                                        setStep(1);
+                                        }
+                                        
+                                    }}
+                                    onError={() => {
+                                      console.log('Login Failed');
+                                    }}
+                                  />
                                     <Button className="cmn_btn"><img src="assets/images/facebook.svg" alt="Facebook" />  Sign Up with Facebook</Button>
                                 </div>
                                 {/* step 2 */}
@@ -375,18 +551,20 @@ const Signup = () => {
                                                     caps
                                                     endYearGiven
                                                     year={formVar.year}
-                                                    value={formVar.month}
+                                                    value={formVar.month-1}
                                                     reverse
                                                     required={true}
                                                     onChange={(month) => {
-                                                        setFormVar({ ...formVar, "month": month, "dob": [formVar.year, parseInt(month) + 1, formVar.day].join("-") });
+                                                        // setFormVar({ ...formVar, "month": month, "dob": [formVar.year, parseInt(month) + 1, formVar.day].join("-") });
+                                                        setFormVar({ ...formVar, "month": Number(month)+1  });
+                                                       console.log(Number(month)+1);
                                                     }}
                                                     id={'month'}
                                                     name={'month'}
                                                     classes={'classes'}
                                                     optionClasses={'optionClasses'}
                                                 />
-                                                {errors?.dob && <Form.Text className="error">{errors?.dob}</Form.Text>}
+                                                {errors?.month && <Form.Text className="error">{errors?.month}</Form.Text>}
                                             </Form.Group>
                                         </Col>
                                         <Col md={4}>
@@ -400,14 +578,15 @@ const Signup = () => {
                                                     required={true}
                                                     value={formVar.day}
                                                     onChange={(day) => {
-                                                        setFormVar({ ...formVar, "day": day, "dob": [formVar.year, parseInt(formVar.month) + 1, day].join("-") });
+                                                        // setFormVar({ ...formVar, "day": day, "dob": [formVar.year, parseInt(formVar.month) + 1, day].join("-") });
+                                                        setFormVar({ ...formVar, "day": day });
                                                     }}
                                                     id={'day'}
                                                     name={'day'}
                                                     classes={'classes'}
                                                     optionClasses={'optionClasses'}
                                                 />
-                                                {errors?.dob && <Form.Text className="error">{errors?.dob}</Form.Text>}
+                                                {errors?.day && <Form.Text className="error">{errors?.day}</Form.Text>}
                                             </Form.Group>
                                         </Col>
                                     </Row>
@@ -420,14 +599,16 @@ const Signup = () => {
                                             required={true}
                                             value={formVar.year}
                                             onChange={(year) => {
-                                                setFormVar({ ...formVar, "year": year, "dob": [year, parseInt(formVar.month) + 1, formVar.day].join("-") });
+                                                // setFormVar({ ...formVar, "year": year, "dob": [year, parseInt(formVar.month) + 1, formVar.day].join("-") });
+                                                setFormVar({ ...formVar, "year": year });
                                             }}
                                             id={'year'}
                                             name={'year'}
                                             classes={'classes'}
                                             optionClasses={'optionClasses'}
                                         />
-                                        {errors?.dob && <Form.Text className="error">{errors?.dob}</Form.Text>}
+                                        {errors?.year && <Form.Text className="error">{errors?.year}</Form.Text>}
+                                        {errors?.years_age && <Form.Text className="error">{errors?.years_age}</Form.Text>}
                                     </Form.Group>
                                     <Form.Text className="text-muted form-unused-text"><AiOutlineEye /> Your age will be visible to others. This cannot be
                                         changed later.</Form.Text>
@@ -440,6 +621,7 @@ const Signup = () => {
                                         <Form.Label>Display Name*</Form.Label>
                                         <Form.Control type="text" name="display_name" placeholder="Your name" value={formVar.display_name} onChange={(e) => handleInputChange(e)} />
                                         {errors?.display_name && <Form.Text className="error">{errors?.display_name}</Form.Text>}
+                                        {errors?.test && <Form.Text className="error">{errors?.test}</Form.Text>}
                                     </Form.Group>
                                     <Form.Group className="mb-3 full-w-field" controlId="gender" value={formVar.gender} onChange={(e) => { handleInputChange(e) }}>
                                         <Form.Label>I am*</Form.Label>
@@ -478,7 +660,7 @@ const Signup = () => {
                                         ))}
                                         {errors?.gender && <Form.Text className="error">{errors?.gender}</Form.Text>}
                                     </Form.Group>
-                                    <Form.Group className="mb-3 full-w-field" controlId="interested_in" value={formVar.interested_in} onChange={(e) => { handleInputChange(e) }}>
+                                    <Form.Group className="mb-3 full-w-field" controlId="interested_in" value={formVar.interested_in} name="" onChange={(e) => { handleInputChange(e) }}>
                                         <Form.Label>Interested In*</Form.Label>
                                         {['checkbox'].map((type) => (
                                             <div key={`reverse-${type}`} className="mb-3 field-flex">
@@ -517,8 +699,9 @@ const Signup = () => {
                                         <Col md={6}>
                                             <Form.Group className="mb-3" controlId="country">
                                                 <Form.Label>Country*</Form.Label>
-                                                <Form.Select defaultValue="Country/Region" name="country" onChange={(e) => handleCountryChange(e)}>
-                                                    <option>Country/Region</option>
+                                                <Form.Select defaultValue="" name="country" onChange={(e) => handleCountryChange(e)}>
+                                                    <option value="">Country/Region</option>
+                                                    <option value="231">United States</option>
                                                     {CountryForm?.map((curelem, index) => {
                                                         return (
                                                             <option key={curelem.country_id} value={curelem.country_id}>{curelem.country_name}</option>

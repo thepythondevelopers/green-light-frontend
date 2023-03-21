@@ -3,7 +3,11 @@ import '../../../assets/css/auth.css';
 import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import axios from "axios";
-import { IoIosArrowBack } from "react-icons/io"
+import { IoIosArrowBack } from "react-icons/io";
+import { GoogleOAuthProvider , GoogleLogin } from '@react-oauth/google';
+import FacebookLogin from 'react-facebook-login';
+import jwtDecode from 'jwt-decode';
+
 
 const api = " https://greenlightapi.pamsar.com/api";
 
@@ -86,6 +90,12 @@ const Login = () => {
                 console.log("LoginApi error::", error);
             })
     }
+
+
+      const responseFacebook = (response) => {
+        console.log(response);
+      }
+      
     return (
         <>
             <div className="auth-body">
@@ -139,8 +149,29 @@ const Login = () => {
                                     Sign In
                                 </Button>
                             </Form>
-                            <Button className="cmn_btn"> <img src="assets/images/google.svg" alt="Google" /> Sign In with Gmail</Button>
+                            <Button className="cmn_btn"> <img src="assets/images/google.svg" alt="Google"  /> Sign In with Gmail</Button>
+
+                            <GoogleLogin
+                            onSuccess={credentialResponse => {
+                                // if (credentialResponse.credential != null) {
+                                //     const USER_CREDENTIAL = jwtDecode(credentialResponse.credential);
+                                //     console.log(USER_CREDENTIAL);
+                                //    }
+                            }}
+                            onError={() => {
+                              console.log('Login Failed');
+                            }}
+                          />
                             <Button className="cmn_btn"><img src="assets/images/facebook.svg" alt="Facebook" />  Sign In with Facebook</Button>
+
+                            <FacebookLogin
+                            appId="1088597931155576"
+                            autoLoad={true}
+                            fields="name,email,picture"
+                            callback={responseFacebook}
+                            cssClass="my-facebook-button-class"
+                            icon="fa-facebook"
+                          />
                         </div>
                     </Col>
                 </Row>

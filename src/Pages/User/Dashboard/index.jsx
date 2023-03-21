@@ -10,7 +10,8 @@ import Slider from "react-slick";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserAPI } from "../../../Redux/Action/Action";
-const api = "https://greenlightapi.pamsar.com/api";
+// const api = "https://greenlightapi.pamsar.com/api";
+const api ="http://192.168.1.3:3004/api"
 
 function SampleNextArrow(props) {
     const { className, onClick } = props;
@@ -44,7 +45,7 @@ const Dashboard = () => {
     const settings = {
         arrow: true,
         dots: false,
-        infinite: true,
+        infinite: false,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -86,11 +87,12 @@ const Dashboard = () => {
         fetch(`${api}/matching-algo`, {
             method: 'POST',
             headers: {
-                "x-access-token": JSON.parse(localStorage.getItem("user-info")).token,
+                // "token": JSON.parse(localStorage.getItem("user-info")).token,
+                "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VlNzFmMTlmYzdiZDQyYTEwMmVkMzkiLCJzY29wZSI6InVzZXIiLCJ0b2tlbl9nZW5fYXQiOjE2NzkzMzY0NjQwMjcsImlhdCI6MTY3OTMzNjQ2NH0.WvYA3EQTtikeCtkhLlL6LBxZx2Q3GkRLt_ZQa8tKmq0",
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(data),
+            // body: JSON.stringify(data),
         })
             .then(response => response.json())
             .then(result => {
@@ -109,7 +111,7 @@ const Dashboard = () => {
             userInterest = user?.interested_in[0]
             getMatchAlgo(userInterest);
         }
-    }, [user])
+    }, [user]);
     return (
         <>
             <Header />

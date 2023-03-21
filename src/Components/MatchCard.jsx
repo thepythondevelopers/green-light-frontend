@@ -17,7 +17,8 @@ import { CiLocationOn } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 import { TiLocationArrow } from "react-icons/ti";
 import { useEffect } from "react";
-const api = " https://greenlightapi.pamsar.com/api";
+// const api = "https://greenlightapi.pamsar.com/api";
+const api ="http://192.168.1.3:3004/api"
 
 const MatchCard = (props) => {
 
@@ -61,6 +62,7 @@ const MatchCard = (props) => {
     });
     useEffect(() => {
         props?.data?.dob && getAge(props?.data?.dob)
+        // alert(JSON.parse(localStorage.getItem("user-info")).token)
     }, [props])
     // Get Save Light
     const saveLightApi = (data) => {
@@ -76,7 +78,8 @@ const MatchCard = (props) => {
         fetch(`${api}/save-light`, {
             method: 'POST',
             headers: {
-                "x-access-token": JSON.parse(localStorage.getItem("user-info")).token,
+                // "token": JSON.parse(localStorage.getItem("user-info")).token,
+                "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VlNzFmMTlmYzdiZDQyYTEwMmVkMzkiLCJzY29wZSI6InVzZXIiLCJ0b2tlbl9nZW5fYXQiOjE2NzkzMzY0NjQwMjcsImlhdCI6MTY3OTMzNjQ2NH0.WvYA3EQTtikeCtkhLlL6LBxZx2Q3GkRLt_ZQa8tKmq0",
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
@@ -243,15 +246,15 @@ const MatchCard = (props) => {
                     </div>
                     <div className="userStatus">
                         <div className="icons">
-                            <span className="red-light light" onClick={(e) => { console.log("red test", props?.data?._id); saveLightApi({ "sent_to": props?.data?._id, "sent_light": "Red" }); }}>
+                            <span className="red-light light" onClick={(e) => { console.log("red test", props?.data?._id); saveLightApi({ "user" : user?._id, "sent": props?.data?._id, "light": "Red" }); }}>
                                 <img src="/assets/images/status-red.png" alt="Status" />
                                 <AiOutlinePlus />
                             </span>
-                            <span className="yellow-light light" onClick={(e) => { console.log("yellow test", props?.data?._id); saveLightApi({ "sent_to": props?.data?._id, "sent_light": "Yellow" }) }}>
+                            <span className="yellow-light light" onClick={(e) => { console.log("yellow test", props?.data?._id); saveLightApi({"user" : user?._id, "sent": props?.data?._id, "light": "Yellow" }) }}>
                                 <img src="/assets/images/status-yellow.png" alt="Status" />
                                 <BiQuestionMark />
                             </span>
-                            <span className="green-light light" onClick={(e) => { console.log("green test", props?.data?._id); saveLightApi({ "sent_to": props?.data?._id, "sent_light": "Green" }) }}>
+                            <span className="green-light light" onClick={(e) => { console.log("green test", props?.data?._id); saveLightApi({"user" : user?._id,  "sent": props?.data?._id, "light": "Green" }) }}>
                                 <img src="/assets/images/status-green.png" alt="Status" />
                                 <TiLocationArrow />
                             </span>

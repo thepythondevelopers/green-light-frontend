@@ -34,8 +34,8 @@ const ProfessionalInfo = () => {
         const name = e.target.name;
         const value = e.target.value;
         setProfessionalInfo({ ...professionalInfo, [name]: value });
-        console.log("professionalInfo name", name);
-        console.log("professionalInfo value", value);
+        // console.log("professionalInfo name", name);
+        // console.log("professionalInfo value", value);
     }
 
     const handleSubmit = (e) => {
@@ -52,7 +52,10 @@ const ProfessionalInfo = () => {
 
     // Personal Preferences API
     const professionalInfoAPI = (data) => {
-        console.log("data", data);
+        // console.log(data);
+        console.log(professionalInfo);
+        return false;
+        // return false;
         fetch(`${api}/professional-information`, {
             method: 'POST',
             headers: {
